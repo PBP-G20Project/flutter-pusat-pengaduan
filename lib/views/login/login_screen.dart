@@ -29,7 +29,7 @@ class _LoginScreenPageState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Form Budget'),
+        title: Text('Login'),
       ),
       body: Form(
         key: _formKey,
