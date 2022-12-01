@@ -34,7 +34,7 @@ Kami membuat aplikasi ini karena korupsi sudah sangat merajalela di Indonesia. K
 Kami menyediakan platform yang memungkinkan user untuk memberikan laporan tentang kasus korupsi. Laporan ini kemudian akan diproses secara langsung oleh admin. Admin akan mengupdate secara berkala status dari laporan tersebut.
 
 ## Role
-1. Guest
+1. **Guest**
     * Melihat main page
     * Membuat akun
 3. **User**
