@@ -25,9 +25,16 @@
 </tr>
 </table>
 
-## Deskripsi Aplikasi (nama aplikasi, fungsi aplikasi, dan peran/aktor pengguna aplikasi)
 
-Aplikasi ini bernama Pusat Pengaduan. Aplikasi ini berfungsi untuk menangani laporan mengenai kasus korupsi yang terjadi di sekitar kita. Kami berharap dengan adanya aplikasi ini, tindakan korupsi mampu secara signifikan mengalami penurunan dan dapat dengan cepat ditindaklanjuti. Pada aplikasi ini, akan terdapat 2 role, yaitu : 
+## Cerita di balik Pusat Pengaduan
+
+[G20 Topic: Anti-corruption](https://www.oecd.org/g20/topics/anti-corruption/)
+Kami membuat aplikasi ini karena korupsi sudah sangat merajalela di Indonesia. Kasus yang mengakar ini sulit sekali untuk dihindarkan. Dampak terbesar akibat korupsi adalah kemiskinan absolut. Oleh karena itu, kami menyediakan layanan ini untuk menampung laporan bagi masyarakat yang menemui dugaan kasus korupsi. Kami berharap dengan adanya aplikasi ini, tindakan korupsi mampu secara signifikan mengalami penurunan dan dapat dengan cepat ditindaklanjuti.
+
+
+Pengguna aplikasi ini dibagi menjadi dua yaitu:
+
+
 1. **User**
 User merupakan pengguna Pusat Pengaduan, user memiliki kewenangan untuk melihat berita yang ada di main page dan melayangkan aduan di submission form.
 2. **Admin**
@@ -49,10 +56,8 @@ Admin merupakan anggota KPK yang di-assign untuk menangani kasus yang    dilayan
 [**RUBEN: DASHBOARD ADMIN**] Terdapat dashboard admin dimana nanti akan ada daftar keluhan yang di assign kepada admin tertentu untuk ditangani oleh admin tersebut. Admin dapat mengubah status dari setiap laporan yang diterima. Status terbagi menjadi 4: Pending, Diproses, Selesai, dan Ditolak.
 
 ## Alur pengintegrasian dengan web service
+1. Menambahkan sistem autentikasi untuk memudahkan post dan get pada app django
+2. Membuat model untuk menerima data dari app django
+3. Menggunakan http get untuk mendapatkan dari app django yang datanya akan digunakan pada app flutter
+4. Menggunakan http post untuk mengirim data ke app django sehingga data dapat disimpan pada app django
 
-
-1. Alur untuk menampilkan data
-Menambahkan dependency http ke proyek → Model data → get http (web service) → decode ke json → ubah ke model → Tampilkan / gunakan data tersebut
-
-2. Alur untuk menambahkan data
-Menambahkan dependency http ke proyek → Model data → terima input dari user → konfigurasi input agar sesuai dengan model data yang dibuat → encode ke json → post http(web service) 
