@@ -16,31 +16,41 @@ class SubmissionFormScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Buat Laporan'),
       ),
-      body: ListView(children: [
+      body: ListView(controller: controller.scrollController, children: [
         Container(
           margin: const EdgeInsets.all(kDefaultPadding),
           child: Form(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
+            autovalidateMode: AutovalidateMode.always,
             key: controller.formKey,
             child: Column(
               children: [
-                const CustomTextField(
-                    label: "Judul Laporan", hint: "Tuliskan judul laporan"),
+                CustomTextField(
+                  label: "Judul Laporan",
+                  hint: "Tuliskan judul laporan",
+                  controller: controller.titleController.value,
+                  validator: controller.validateTextField,
+                ),
                 const SizedBox(height: kDefaultPadding),
-                const CustomTextField(
+                CustomTextField(
                   label: "Isi Laporan",
                   hint: "Tuliskan isi laporan",
                   maxLines: 5,
                   keyboardType: TextInputType.multiline,
+                  controller: controller.contentController.value,
+                  validator: controller.validateTextField,
                 ),
                 const SizedBox(height: kDefaultPadding),
-                const CustomTextField(
-                    label: "Instansi Terkait",
-                    hint: "Tuliskan intansi terkait"),
+                CustomTextField(
+                  label: "Instansi Terkait",
+                  hint: "Tuliskan intansi terkait",
+                  controller: controller.instansiController.value,
+                  validator: controller.validateTextField,
+                ),
                 const SizedBox(height: kDefaultPadding),
                 CustomDropdownField(
                     label: "Tingkat Instansi",
                     hint: "Pilih tingkat instansi",
+                    validator: controller.validateTextField,
                     items: const [
                       "Nasional",
                       "Provinsi",
@@ -52,18 +62,27 @@ class SubmissionFormScreen extends StatelessWidget {
                       controller.tipeController.value.text = value!;
                     }),
                 const SizedBox(height: kDefaultPadding),
-                const CustomTextField(
-                    label: "Pihah yang Terlibat",
-                    hint: "Tuliskan nama/jabatan pihak yang terlibat"),
+                CustomTextField(
+                  label: "Pihak yang Terlibat",
+                  hint: "Tuliskan nama/jabatan pihak yang terlibat",
+                  controller: controller.pihakController.value,
+                  validator: controller.validateTextField,
+                ),
                 const SizedBox(height: kDefaultPadding),
-                const CustomTextField(
-                    label: "Lokasi", hint: "Tuliskan lokasi kejadian"),
+                CustomTextField(
+                  label: "Lokasi",
+                  hint: "Tuliskan lokasi kejadian",
+                  controller: controller.lokasiController.value,
+                  validator: controller.validateTextField,
+                ),
                 const SizedBox(height: kDefaultPadding),
                 Obx(() => CustomTextField(
                     label: "Tanggal",
                     hint: "Tuliskan tanggal kejadian",
                     keyboardType: TextInputType.none,
                     controller: controller.dateController.value,
+                    validator: controller.validateTextField,
+                    icon: const Icon(Icons.calendar_today),
                     onTap: () {
                       controller.chooseDate(context: context);
                     })),
@@ -88,7 +107,7 @@ class SubmissionFormScreen extends StatelessWidget {
         CustomFooterButton(
           label: 'Submit',
           onPressed: () {
-            controller.formKey.currentState!.validate();
+            controller.submitForm();
           },
         ),
       ],
