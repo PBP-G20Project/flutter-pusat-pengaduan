@@ -140,6 +140,21 @@ class _LoginScreenPageState extends State<LoginScreen> {
                         login_test(request).then((result) {
                           if (request.loggedIn) {
                             controller.navigateToHomePage();
+                          } else {
+                            showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: const Text('Gagal Login'),
+                                content: const Text(
+                                    'Email atau Password Anda Salah'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text('Kembali'),
+                                  ),
+                                ],
+                              ),
+                            );
                           }
                         });
                       },
