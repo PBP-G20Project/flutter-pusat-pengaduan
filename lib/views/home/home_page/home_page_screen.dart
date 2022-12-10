@@ -40,6 +40,16 @@ class HomePageScreen extends StatelessWidget {
             width: 300,
             height: 300,
           ),
+          const Text("Contoh Navigator push/pushNamed"),
+            ElevatedButton(
+                onPressed: () => controller
+                    .navigateToBeritaDetail(), // contoh penggunaan navigator pushNamed dengan getx
+                child: const Text('Berita Detail')),
+            const Text("test ke login"),
+            ElevatedButton(
+                onPressed: () => controller
+                    .navigateToLogin(), // contoh penggunaan navigator pushNamed dengan getx
+                child: const Text('Login')),
           Container(
               margin: const EdgeInsets.fromLTRB(20, 10, 400, 10),
               child: const Text(

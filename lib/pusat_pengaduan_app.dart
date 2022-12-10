@@ -4,6 +4,8 @@ import 'package:get/route_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pusat_pengaduan/common/constant.dart';
 import 'package:pusat_pengaduan/utils/route.dart';
+import 'package:provider/provider.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
 
 class PusatPengaduanApp extends StatelessWidget {
   const PusatPengaduanApp({super.key});
@@ -20,27 +22,33 @@ class PusatPengaduanApp extends StatelessWidget {
         statusBarIconBrightness: Brightness.light,
       ),
     );
-    return GetMaterialApp(
-      title: "Pusat Pengaduan",
-      debugShowCheckedModeBanner: false,
-      theme: Theme.of(context).copyWith(
+    return Provider(
+      create: (_) {
+        CookieRequest request = CookieRequest();
+        return request;
+      },
+      child: GetMaterialApp(
+        title: "Pusat Pengaduan",
+        debugShowCheckedModeBanner: false,
+        theme: Theme.of(context).copyWith(
           colorScheme: const ColorScheme(
-        brightness: Brightness.light,
-        primary: kPrimaryColor,
-        onPrimary: kWhiteColor,
-        secondary: kSecondaryColor01,
-        onSecondary: kSecondaryColor02,
-        error: kErrorColor,
-        onError: kWhiteColor,
-        background: kBananaColor200,
-        onBackground: kPrimaryColor,
-        surface: kMintColor,
-        onSurface: kPrimaryColor,
+            brightness: Brightness.light,
+            primary: kPrimaryColor,
+            onPrimary: kWhiteColor,
+            secondary: kSecondaryColor01,
+            onSecondary: kSecondaryColor02,
+            error: kErrorColor,
+            onError: kWhiteColor,
+            background: kBananaColor200,
+            onBackground: kPrimaryColor,
+            surface: kMintColor,
+            onSurface: kPrimaryColor,
+          ),
+          textTheme: GoogleFonts.rubikTextTheme(),
+        ),
+        getPages: route,
+        initialRoute: splashRoute, // sesuaikan dengan route yang diinginkan
       ),
-        textTheme: GoogleFonts.rubikTextTheme(),
-      ),
-      getPages: route,
-      initialRoute: splashRoute, // sesuaikan dengan route yang diinginkan
     );
   }
 }
