@@ -2,12 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:pusat_pengaduan/common/constant.dart';
+import 'package:pusat_pengaduan/models/report/report.dart';
 
 class SubmissionFormController extends GetxController {
   @override
   // ignore: unnecessary_overrides
   void onInit() {
     super.onInit();
+  }
+
+  @override
+  void dispose() {
+    titleController.value.dispose();
+    contentController.value.dispose();
+    instansiController.value.dispose();
+    tipeController.value.dispose();
+    pihakController.value.dispose();
+    lokasiController.value.dispose();
+    dateController.value.dispose();
+    super.dispose();
   }
 
   final formKey = GlobalKey<FormState>();
@@ -20,6 +33,8 @@ class SubmissionFormController extends GetxController {
   final dateController = TextEditingController().obs;
   final scrollController = ScrollController();
   var isAgree = false.obs;
+  var dateTime = DateTime.now();
+  var report;
 
   String? validateTextField(String? value) {
     if (value == null || value.isEmpty) {
@@ -89,29 +104,47 @@ class SubmissionFormController extends GetxController {
 
   submitForm() {
     if (validateForm()) {
-      postReport();
-      print("Title: ${titleController.value.text}");
-      print("Content: ${contentController.value.text}");
-      print("Instansi: ${instansiController.value.text}");
-      print("Tipe: ${tipeController.value.text}");
-      print("Pihak: ${pihakController.value.text}");
-      print("Lokasi: ${lokasiController.value.text}");
-      print("Date: ${dateController.value.text}");
-
-      formKey.currentState!.reset();
-      titleController.value.clear();
-      contentController.value.clear();
-      instansiController.value.clear();
-      tipeController.value.clear();
-      pihakController.value.clear();
-      lokasiController.value.clear();
-      dateController.value.clear();
-      isAgree.value = false;
+      getDataForm();
     }
   }
 
-  postReport() {
+  clearForm() {
+    formKey.currentState!.reset();
+    titleController.value.clear();
+    contentController.value.clear();
+    instansiController.value.clear();
+    tipeController.value.clear();
+    pihakController.value.clear();
+    lokasiController.value.clear();
+    dateController.value.clear();
+    isAgree.value = false;
+  }
+
+  getDataForm() {
     // TODO: Implement post report
+    var userSubmission = 0;
+    var adminSubmission = 0;
+    var pk = 0;
+    var title = titleController.value.text;
+    var content = contentController.value.text;
+    var institution = instansiController.value.text;
+    var institutionLevel = tipeController.value.text;
+    var involvedParty = pihakController.value.text;
+    var location = lokasiController.value.text;
+
+    var fields = Fields(
+        userSubmission: userSubmission,
+        adminSubmission: adminSubmission,
+        title: title,
+        content: content,
+        institution: institution,
+        institutionLevel: institutionLevel,
+        involvedParty: involvedParty,
+        date: dateTime,
+        location: location,
+        status: "PENDING");
+
+    report = Report(fields: fields, pk: pk);
   }
 
   chooseDate({required BuildContext context}) async {
@@ -123,6 +156,7 @@ class SubmissionFormController extends GetxController {
     );
     if (date != null) {
       dateController.value.text = DateFormat('dd/MM/yyyy').format(date);
+      dateTime = date;
     }
     return null;
   }
