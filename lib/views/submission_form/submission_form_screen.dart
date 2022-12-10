@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 import 'package:pusat_pengaduan/common/constant.dart';
+import 'package:pusat_pengaduan/models/report/report.dart';
 import 'package:pusat_pengaduan/views/submission_form/controller/submission_form_controller.dart';
 import 'package:pusat_pengaduan/views/submission_form/widgets/custom_dropdown.dart';
 import 'package:pusat_pengaduan/views/submission_form/widgets/custom_footer_button.dart';
@@ -12,6 +15,8 @@ class SubmissionFormScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<SubmissionFormController>();
+    final request = context.watch<CookieRequest>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Buat Laporan'),
@@ -106,8 +111,15 @@ class SubmissionFormScreen extends StatelessWidget {
         // Pernyataan Integritas
         CustomFooterButton(
           label: 'Submit',
-          onPressed: () {
+          onPressed: () async {
             controller.submitForm();
+            var data = reportToJson(controller.report);
+            final response = await request.post(
+                'https://pusat-pengaduan.up.railway.app/submission_form/json/',
+                data);
+            print(response);
+            controller.clearForm();
+            Get.back();
           },
         ),
       ],
