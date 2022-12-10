@@ -50,6 +50,11 @@ class HomePageScreen extends StatelessWidget {
                 onPressed: () => controller
                     .navigateToregister(), // contoh penggunaan navigator pushNamed dengan getx
                 child: const Text('Register')),
+            const Text("test ke Profile"),
+            ElevatedButton(
+                onPressed: () => controller
+                    .navigateToProfile(), // contoh penggunaan navigator pushNamed dengan getx
+                child: const Text('Profile')),
           ],
         ),
       ),

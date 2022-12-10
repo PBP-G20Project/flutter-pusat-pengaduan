@@ -21,4 +21,8 @@ class HomePageController extends GetxController {
   navigateToregister() {
     Get.toNamed(registerRoute);
   }
+
+  navigateToProfile() {
+    Get.toNamed(profileRoute);
+  }
 }
