@@ -27,7 +27,8 @@ class _LoginScreenPageState extends State<LoginScreen> {
 
   login_test(request) async {
     // ganti railway
-    final response = await request.login("http://127.0.0.1:8000/auth/login/", {
+    final response = await request
+        .login("https://pusat-pengaduan.up.railway.app/auth/login/", {
       'email': email,
       'password': password1,
     });
