@@ -13,23 +13,27 @@ class ReviewScreen extends StatefulWidget {
   State<ReviewScreen> createState() => _ReviewScreenState();
 }
 
+Map<String, String> listRating = {
+  '0': '--------',
+  '1': 'Very Good',
+  '2': 'Good',
+  '3': 'Mediocre',
+  '4': 'Bad',
+  '5': 'Very Bad'
+};
+
 class _ReviewScreenState extends State<ReviewScreen> {
   final controller = Get.find<ReviewController>();
   final _formKey = GlobalKey<FormState>();
 
-  static final List<List<Object>> list = [];
-
   String _review = "";
 
-
-  List<List<Object>> _getList() {
-    return list;
-  }
+  String _rating = '0';
 
   reviewPost(request) async {
-    final response = await request.post('https://pusat-pengaduan.up.railway.app/', {
-      'review' : _review
-    });
+    final response = await request.post('http://localhost:8000/isi_form/',
+        {'comment': _review, 'rating': _rating});
+    print(response);
     return response;
   }
 
@@ -78,28 +82,74 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   },
                 ),
               ),
+              ListTile(
+                title: const Text(
+                  'Rating',
+                ),
+                trailing: DropdownButton<String>(
+                  value: _rating,
+                  icon: const Icon(Icons.keyboard_arrow_down),
+                  // items : listRating.forEach((key, value) {
+                  //   return DropdownMenuItem(
+                  //     value: key,
+                  //     child: Text(value)
+                  //   );
+                  //  }),
+                  items: listRating.keys.map((String items) {
+                    return DropdownMenuItem(
+                      value: items,
+                      child: Text(listRating[items]!),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _rating = newValue!;
+                    });
+                  },
+                ),
+              ),
               TextButton(
                   onPressed: () async {
                     reviewPost(request).then((result) {
-                      showDialog(context: context, builder: (BuildContext context) =>
-                      AlertDialog(
-                        title: const Text('Berhasil Review', style: TextStyle(color: kPrimaryColor)),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () => Get.back(),
-                            child: const Text('OK'),
-                          )
-                        ],
-                      ));
+                      String msg = result['message'];
+                      if (result['status']) {
+                        showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('Berhasil Review',
+                                      style: TextStyle(color: Colors.green)),
+                                  content: Text("$msg"),
+                                  actions: <Widget>[
+                                    TextButton(
+                                        onPressed: () =>
+                                            controller.navigateToHomePage(),
+                                        child: const Text("OK")),
+                                  ],
+                                ));
+                      } else {
+                        showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                                  title: const Text("Gagal Review",
+                                      style: TextStyle(color: Colors.red)),
+                                  content: Text("$msg"),
+                                  actions: <Widget>[
+                                    TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text("Kembali")),
+                                  ],
+                                ));
+                      }
                     });
                   },
-                  child: const Text("Simpan"))
+                  child: const Text(
+                    "Simpan",
+                    style: TextStyle(color: kPrimaryColor),
+                  ))
             ]),
           ),
         ),
       ),
     );
   }
-
-
 }

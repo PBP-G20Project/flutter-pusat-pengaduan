@@ -11,4 +11,9 @@ class ReviewController extends GetxController {
   navigateToReviewForm() {
     Get.toNamed(homePageRoute);
   }
+
+  navigateToHomePage() {
+    // Get.toNamed(beritaDetailRoute);
+    Get.toNamed(homePageRoute);
+  }
 }

@@ -13,7 +13,8 @@ class HomePageScreen extends StatelessWidget {
   const HomePageScreen({super.key});
 
   getReview(request) async {
-    final response = await request.get("https://pusat-pengaduan.up.railway.app/");
+    final response =
+        await request.get("https://pusat-pengaduan.up.railway.app/");
     return response;
   }
 
@@ -40,16 +41,22 @@ class HomePageScreen extends StatelessWidget {
             width: 300,
             height: 300,
           ),
-          const Text("Contoh Navigator push/pushNamed"),
-            ElevatedButton(
-                onPressed: () => controller
-                    .navigateToBeritaDetail(), // contoh penggunaan navigator pushNamed dengan getx
-                child: const Text('Berita Detail')),
-            const Text("test ke login"),
-            ElevatedButton(
+
+          Container(
+            margin: const EdgeInsets.fromLTRB(20, 20, 400, 10),
+            child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: kWhiteColor,
+                  minimumSize: const Size(120, 40),
+                  maximumSize: const Size(120, 40),
+                ),
                 onPressed: () => controller
                     .navigateToLogin(), // contoh penggunaan navigator pushNamed dengan getx
-                child: const Text('Login')),
+                child: const Text('Login',
+                    style: TextStyle(
+                        color: kPrimaryColor, fontWeight: FontWeight.w500))),
+          ),
+
           Container(
               margin: const EdgeInsets.fromLTRB(20, 10, 400, 10),
               child: const Text(
@@ -142,6 +149,27 @@ class HomePageScreen extends StatelessWidget {
                 "Review",
                 style: TextStyle(fontSize: 20, color: kWhiteColor),
               )),
+          // FutureBuilder(future: getReview(request),
+          // builder: (context, AsyncSnapshot snapshot) {
+          //       if (snapshot.data == null) {
+          //         return const Center(child: CircularProgressIndicator());
+          //       } else {
+          //         if (!snapshot.hasData) {
+          //           return Column(
+          //             children: const [
+          //               Text("No Review Yet!", style: TextStyle(
+          //                 color: kWhiteColor,
+          //                 fontSize: 15
+          //               ),),
+          //               SizedBox(height: 8,)
+          //             ],
+          //           );
+          //         } else {
+          //           return ListView.builder(itemBuilder:
+          //           )
+          //         }
+          //       }
+          // },),
           // Container(
           //   child: ListView.builder(
           //     itemCount: controller.data!.length,
