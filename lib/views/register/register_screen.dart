@@ -153,8 +153,8 @@ class _RegisterScreenPage extends State<RegisterScreen> {
                     });
                   },
                   validator: (String? value) {
-                    if (value == null || value.isEmpty || value.length != 11) {
-                      return 'NIK harus terdiri dari 11 angka';
+                    if (value == null || value.isEmpty || value.length != 16) {
+                      return 'NIK harus terdiri dari 16 angka';
                     }
                     return null;
                   },

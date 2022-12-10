@@ -176,8 +176,8 @@ class _ProfileScreenPageState extends State<ProfileScreen> {
                             validator: (String? value) {
                               if (value == null ||
                                   value.isEmpty ||
-                                  value.length != 11) {
-                                return 'NIK harus terdiri dari 11 angka';
+                                  value.length != 16) {
+                                return 'NIK harus terdiri dari 16 angka';
                               }
                               return null;
                             },
@@ -201,47 +201,56 @@ class _ProfileScreenPageState extends State<ProfileScreen> {
                                   if (nik == "") {
                                     nik = snapshot.data['user'].fields.nik;
                                   }
-                                  postProfile(request).then((result) {
-                                    String msg = result['message'];
-                                    if (result['status']) {
-                                      showDialog<String>(
-                                        context: context,
-                                        builder: (BuildContext context) =>
-                                            AlertDialog(
-                                          title: const Text(
-                                              'Berhasil Ubah Data',
-                                              style: TextStyle(
-                                                  color: Colors.green)),
-                                          content: Text("$msg"),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              onPressed: () => controller
-                                                  .navigateToHomePage(),
-                                              child: const Text('OK'),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    } else {
-                                      showDialog<String>(
-                                        context: context,
-                                        builder: (BuildContext context) =>
-                                            AlertDialog(
-                                          title: const Text('Gagal Ubah Data',
-                                              style:
-                                                  TextStyle(color: Colors.red)),
-                                          content: Text("$msg"),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              onPressed: () =>
-                                                  Navigator.pop(context),
-                                              child: const Text('Kembali'),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    }
-                                  });
+                                  // print(
+                                  //     _profileFormKey.currentState!.validate());
+                                  // print(nik);
+                                  // print(email);
+                                  // print(name);
+                                  if (_profileFormKey.currentState!
+                                      .validate()) {
+                                    print("test");
+                                    postProfile(request).then((result) {
+                                      String msg = result['message'];
+                                      if (result['status']) {
+                                        showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              AlertDialog(
+                                            title: const Text(
+                                                'Berhasil Ubah Data',
+                                                style: TextStyle(
+                                                    color: Colors.green)),
+                                            content: Text("$msg"),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () => controller
+                                                    .navigateToHomePage(),
+                                                child: const Text('OK'),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      } else {
+                                        showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              AlertDialog(
+                                            title: const Text('Gagal Ubah Data',
+                                                style: TextStyle(
+                                                    color: Colors.red)),
+                                            content: Text("$msg"),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () =>
+                                                    Navigator.pop(context),
+                                                child: const Text('Kembali'),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }
+                                    });
+                                  }
                                 },
                                 child: const Text(
                                   "Simpan",
