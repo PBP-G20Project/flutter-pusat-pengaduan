@@ -2,22 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
+import 'package:pusat_pengaduan/common/constant.dart';
 import 'package:pusat_pengaduan/views/login/controller/login_controller.dart';
 
 class LoginScreen extends StatefulWidget {
-  // const LoginScreen({super.key});
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: const Text('Berita Detail'),
-  //     ),
-  //     body: const Center(
-  //       child: Text('Berita Detail'),
-  //     ),
-  //   );
-  // }
   const LoginScreen({super.key});
 
   @override
@@ -55,7 +43,12 @@ class _LoginScreenPageState extends State<LoginScreen> {
     final request = context.watch<CookieRequest>();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login Berhasil'),
+        title: Text('Login',
+            style: kRubik.copyWith(
+              fontSize: 18,
+              color: kWhiteColor,
+              fontWeight: FontWeight.bold,
+            )),
       ),
       body: Form(
         key: _loginFormKey,
