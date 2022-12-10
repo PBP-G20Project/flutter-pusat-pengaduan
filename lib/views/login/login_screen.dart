@@ -25,18 +25,14 @@ class _LoginScreenPageState extends State<LoginScreen> {
   String email = "";
   String password1 = "";
 
-  login_test(request) async {
+  loginRequest(request) async {
     // ganti railway
     final response = await request
         .login("https://pusat-pengaduan.up.railway.app/auth/login/", {
       'email': email,
       'password': password1,
     });
-    if (request.loggedIn == true) {
-      return true;
-    } else {
-      return false;
-    }
+    return response;
   }
 
   @override
@@ -131,7 +127,7 @@ class _LoginScreenPageState extends State<LoginScreen> {
                         backgroundColor: MaterialStateProperty.all(Colors.blue),
                       ),
                       onPressed: () async {
-                        login_test(request).then((result) {
+                        loginRequest(request).then((result) {
                           if (request.loggedIn) {
                             controller.navigateToHomePage();
                           } else {
