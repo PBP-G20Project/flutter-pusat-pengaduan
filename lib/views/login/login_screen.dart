@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:get/get.dart';
+import 'package:pusat_pengaduan/views/login/controller/login_controller.dart';
 
 class LoginScreen extends StatefulWidget {
   // const LoginScreen({super.key});
@@ -21,18 +25,40 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenPageState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final _loginFormKey = GlobalKey<FormState>();
+  final controller = Get.find<LoginController>();
+  bool isPasswordVisible = true;
+  void togglePasswordView() {
+    setState(() {
+      isPasswordVisible = !isPasswordVisible;
+    });
+  }
+
   String email = "";
-  String psd = "";
+  String password1 = "";
+
+  login_test(request) async {
+    // ganti railway
+    final response = await request.login("http://127.0.0.1:8000/auth/login/", {
+      'email': email,
+      'password': password1,
+    });
+    if (request.loggedIn == true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: Text('Login Berhasil'),
       ),
       body: Form(
-        key: _formKey,
+        key: _loginFormKey,
         child: Container(
           padding: const EdgeInsets.all(20.0),
           child: Column(
@@ -70,22 +96,29 @@ class _LoginScreenPageState extends State<LoginScreen> {
                 // Menggunakan padding sebesar 8 pixels
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                  obscureText: true,
+                  obscureText: isPasswordVisible,
                   decoration: InputDecoration(
                     hintText: "Masukan password anda",
                     labelText: "Password",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     ),
+                    suffixIcon: IconButton(
+                        icon: Icon(isPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off),
+                        onPressed: () {
+                          togglePasswordView();
+                        }),
                   ),
                   onChanged: (String? value) {
                     setState(() {
-                      psd = value!;
+                      password1 = value!;
                     });
                   },
                   onSaved: (String? value) {
                     setState(() {
-                      psd = value!;
+                      password1 = value!;
                     });
                   },
                   validator: (String? value) {
@@ -103,8 +136,12 @@ class _LoginScreenPageState extends State<LoginScreen> {
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(Colors.blue),
                       ),
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {}
+                      onPressed: () async {
+                        login_test(request).then((result) {
+                          if (request.loggedIn) {
+                            controller.navigateToHomePage();
+                          }
+                        });
                       },
                       child: const Text(
                         "Simpan",
