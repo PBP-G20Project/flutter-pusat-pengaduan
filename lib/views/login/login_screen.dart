@@ -128,12 +128,28 @@ class _LoginScreenPageState extends State<LoginScreen> {
                       onPressed: () async {
                         loginRequest(request).then((result) {
                           if (request.loggedIn) {
-                            controller.navigateToHomePage();
+                            String msg = "Anda Berhasil Login";
+                            showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: const Text('Berhasil Login',
+                                    style: TextStyle(color: Colors.green)),
+                                content: Text("$msg"),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () =>
+                                        controller.navigateToHomePage(),
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              ),
+                            );
                           } else {
                             showDialog<String>(
                               context: context,
                               builder: (BuildContext context) => AlertDialog(
-                                title: const Text('Gagal Login'),
+                                title: const Text('Gagal Login',
+                                    style: TextStyle(color: Colors.red)),
                                 content: const Text(
                                     'Email atau Password Anda Salah'),
                                 actions: <Widget>[
