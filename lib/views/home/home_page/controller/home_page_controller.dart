@@ -16,5 +16,17 @@ class HomePageController extends GetxController {
 
   navigateToLogin() {
     Get.toNamed(loginRoute);
+   }
+  navigateToBeritaDetailDua() {
+    Get.toNamed(beritaDetailDuaRoute);
+  }
+
+  navigateToBeritaDetailTiga() {
+    Get.toNamed(beritaDetailTigaRoute);
+  }
+
+
+  navigateToReviewForm() {
+    Get.toNamed(reviewRoute);
   }
 }

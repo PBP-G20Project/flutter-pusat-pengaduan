@@ -9,6 +9,10 @@ import 'package:pusat_pengaduan/views/dashboard/draft_form/draft_form_binding.da
 import 'package:pusat_pengaduan/views/dashboard/draft_form/draft_form_screen.dart';
 import 'package:pusat_pengaduan/views/home/berita_detail/berita_detail_binding.dart';
 import 'package:pusat_pengaduan/views/home/berita_detail/berita_detail_screen.dart';
+import 'package:pusat_pengaduan/views/home/berita_detail_dua/berita_detail_dua_screen.dart';
+import 'package:pusat_pengaduan/views/home/berita_detail_dua/berita_detail_dua_binding.dart';
+import 'package:pusat_pengaduan/views/home/berita_detail_tiga/berita_detail_tiga_screen.dart';
+import 'package:pusat_pengaduan/views/home/berita_detail_tiga/berita_detail_tiga_binding.dart';
 import 'package:pusat_pengaduan/views/home/home_page/home_page_binding.dart';
 import 'package:pusat_pengaduan/views/home/home_page/home_page_screen.dart';
 import 'package:pusat_pengaduan/views/home/review/review__binding.dart';
@@ -33,6 +37,8 @@ const profileRoute = "/profile";
 const homePageRoute = "/home/home_page";
 const reviewRoute = "/home/review";
 const beritaDetailRoute = "/home/berita_detail";
+const beritaDetailDuaRoute = "/home/berita_detail_dua";
+const beritaDetailTigaRoute = "/home/berita_detail_tiga";
 
 const submissionRoute = "/submission";
 
@@ -77,6 +83,16 @@ var route = [
     name: beritaDetailRoute,
     page: () => const BeritaDetailScreen(),
     binding: BeritaDetailBinding(),
+  ),
+  GetPage(
+    name: beritaDetailDuaRoute,
+    page: () => const BeritaDetailDuaScreen(),
+    binding: BeritaDetailDuaBinding(),
+  ),
+  GetPage(
+    name: beritaDetailTigaRoute,
+    page: () => const BeritaDetailTigaScreen(),
+    binding: BeritaDetailTigaBinding(),
   ),
   GetPage(
     name: submissionRoute,
