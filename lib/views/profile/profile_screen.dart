@@ -201,11 +201,6 @@ class _ProfileScreenPageState extends State<ProfileScreen> {
                                   if (nik == "") {
                                     nik = snapshot.data['user'].fields.nik;
                                   }
-                                  // print(
-                                  //     _profileFormKey.currentState!.validate());
-                                  // print(nik);
-                                  // print(email);
-                                  // print(name);
                                   if (_profileFormKey.currentState!
                                       .validate()) {
                                     print("test");
