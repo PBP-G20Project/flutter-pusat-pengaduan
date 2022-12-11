@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 import 'package:pusat_pengaduan/common/constant.dart';
+import 'package:pusat_pengaduan/controller/route_controller.dart';
+import 'package:pusat_pengaduan/models/report/report.dart';
 import 'package:pusat_pengaduan/views/submission_form/controller/submission_form_controller.dart';
 import 'package:pusat_pengaduan/views/submission_form/widgets/custom_dropdown.dart';
 import 'package:pusat_pengaduan/views/submission_form/widgets/custom_footer_button.dart';
 import 'package:pusat_pengaduan/views/submission_form/widgets/custom_textfield.dart';
+import 'package:pusat_pengaduan/views/widgets/custom_drawer.dart';
 
 class SubmissionFormScreen extends StatelessWidget {
   const SubmissionFormScreen({super.key});
@@ -12,9 +17,15 @@ class SubmissionFormScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<SubmissionFormController>();
+    final request = context.watch<CookieRequest>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Buat Laporan'),
+      ),
+      drawer: CustomDrawer(
+        title: 'Pusat Pengaduan',
+        menu: RouteController.getDrawerRoute(kSubmission),
       ),
       body: ListView(controller: controller.scrollController, children: [
         Container(
@@ -106,8 +117,20 @@ class SubmissionFormScreen extends StatelessWidget {
         // Pernyataan Integritas
         CustomFooterButton(
           label: 'Submit',
-          onPressed: () {
-            controller.submitForm();
+          onPressed: () async {
+            if (controller.validateForm()) {
+              var data = reportToJson(controller.report);
+              try {
+                final response = await request.post(
+                    'https://pusat-pengaduan.up.railway.app/submission_form/json/',
+                    data);
+                print(response);
+              } on Exception catch (e) {
+                // TODO
+              }
+              controller.clearForm();
+              Get.back();
+            }
           },
         ),
       ],
