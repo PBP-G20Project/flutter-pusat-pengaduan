@@ -164,14 +164,14 @@ class SubmissionFormController extends GetxController {
 
   reportPost(request, data) async {
     final response = await request.post(
-        'http://127.0.0.1:8000/submission_form/add_report_flutter/',
+        'http://pusat-pengaduan.up.railway.app/submission_form/add_report_flutter/',
         jsonEncode(data));
     return response;
   }
 
   getUserId(request) async {
     final response =
-        await request.get("http://127.0.0.1:8000/auth/data_login/");
+        await request.get("http://pusat-pengaduan.up.railway.app/auth/data_login/");
     if (response[0] == null) {
       return {"status": false};
     } else {
