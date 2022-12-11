@@ -10,7 +10,11 @@ class SplashScreen extends StatelessWidget {
       backgroundColor: kPrimaryColor,
       body: Stack(
         children: [
-          // Center(child: Image.asset('assets/images/splash_icon.png')),
+          Center(
+              child: Image.asset(
+            'assets/icons/splash_icon.png',
+            scale: 1.5,
+          )),
           Positioned(
             left: 0,
             right: 0,
