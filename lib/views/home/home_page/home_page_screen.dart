@@ -5,12 +5,11 @@ import 'package:get/get.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:pusat_pengaduan/common/constant.dart';
-import 'package:pusat_pengaduan/utils/route.dart';
+
 import 'package:pusat_pengaduan/views/home/home_page/controller/home_page_controller.dart';
-import 'package:pusat_pengaduan/views/home/review/review_screen.dart';
+
 import 'package:pusat_pengaduan/views/home/review/review_model.dart';
 import 'package:pusat_pengaduan/controller/route_controller.dart';
-import 'package:pusat_pengaduan/views/home/home_page/controller/home_page_controller.dart';
 import 'package:pusat_pengaduan/views/widgets/custom_drawer.dart';
 
 class HomePageScreen extends StatelessWidget {
@@ -86,7 +85,7 @@ class HomePageScreen extends StatelessWidget {
                           height: 80,
                           width: 150,
                         ),
-                        Flexible(
+                        const Flexible(
                           child: Text(
                             'Jaksa menjelaskan alasan Benny Tjokro dituntut pidana mati, salah satunya karena sebelumnya telah terlibat dalam kasus Jiwasraya hingga merugikan ASN Kementerian Pertahanan.',
                           ),
@@ -114,7 +113,7 @@ class HomePageScreen extends StatelessWidget {
                           height: 80,
                           width: 150,
                         ),
-                        Flexible(
+                        const Flexible(
                           child: Text(
                               'Direktur Sosialisasi dan Kampanye Antikorupsi Komisi Pemberantasan Korupsi ( KPK ), Amir Arief menyoroti tingginya angka korupsi di sektor politik.'),
                         )
@@ -141,7 +140,7 @@ class HomePageScreen extends StatelessWidget {
                           height: 80,
                           width: 150,
                         ),
-                        Flexible(
+                        const Flexible(
                           child: Text(
                               'Harun Masiku seperti lenyap ditelan bumi. Politisi PDIP ini tak menampakkan diri di depan publik sejak komisioner KPU, Wahyu Setiawan ditangkap penyidik KPK Rabu 8 Januari lalu.'),
                         )
@@ -192,7 +191,7 @@ class HomePageScreen extends StatelessWidget {
                         children: [
                           Text(
                             "${snapshot.data![index].fields.user}",
-                            style: TextStyle(fontSize: 15),
+                            style: const TextStyle(fontSize: 15),
                           ),
                           const SizedBox(
                             height: 10,
