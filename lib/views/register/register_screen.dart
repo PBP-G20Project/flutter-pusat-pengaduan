@@ -41,8 +41,8 @@ class _RegisterScreenPage extends State<RegisterScreen> {
 
   registerRequest(request) async {
     // ganti railway
-    final response =
-        await request.post("http://127.0.0.1:8000/auth/register_user/", {
+    final response = await request
+        .post("https://pusat-pengaduan.up.railway.app/auth/register_user/", {
       'email': email,
       'password1': password1,
       'password2': password_re_enter,
@@ -54,8 +54,8 @@ class _RegisterScreenPage extends State<RegisterScreen> {
 
   registerAdminRequest(request) async {
     // ganti railway
-    final response =
-        await request.post("http://127.0.0.1:8000/auth/register_user_admin/", {
+    final response = await request.post(
+        "https://pusat-pengaduan.up.railway.app/auth/register_user_admin/", {
       'email': email,
       'password1': password1,
       'password2': password_re_enter,

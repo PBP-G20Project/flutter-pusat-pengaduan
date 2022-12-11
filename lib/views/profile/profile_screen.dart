@@ -25,8 +25,8 @@ class _ProfileScreenPageState extends State<ProfileScreen> {
   String nik = "";
 
   getProfile(request) async {
-    final response =
-        await request.get("http://127.0.0.1:8000/auth/data_login/");
+    final response = await request
+        .get("https://pusat-pengaduan.up.railway.app/auth/data_login/");
     if (response[0] == null) {
       return {"status": false};
     } else {
@@ -37,7 +37,8 @@ class _ProfileScreenPageState extends State<ProfileScreen> {
 
   postProfile(request) async {
     // ganti railway
-    final response = await request.post("http://127.0.0.1:8000/auth/profile/", {
+    final response = await request
+        .post("https://pusat-pengaduan.up.railway.app/auth/profile/", {
       'email': email,
       'nama': name,
       'nik': nik,

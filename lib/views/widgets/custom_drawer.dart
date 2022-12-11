@@ -16,8 +16,8 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
     logout() async {
-      final response =
-          await request.logout("http://127.0.0.1:8000/auth/logout/");
+      final response = await request
+          .logout("https://pusat-pengaduan.up.railway.app/auth/logout/");
       is_user = false;
       return response;
     }

@@ -31,7 +31,8 @@ class _LoginScreenPageState extends State<LoginScreen> {
 
   loginRequest(request) async {
     // ganti railway
-    final response = await request.login("http://127.0.0.1:8000/auth/login/", {
+    final response = await request
+        .login("https://pusat-pengaduan.up.railway.app/auth/login/", {
       'email': email,
       'password': password1,
     });
@@ -39,8 +40,8 @@ class _LoginScreenPageState extends State<LoginScreen> {
   }
 
   getProfile(request) async {
-    final response =
-        await request.get("http://127.0.0.1:8000/auth/data_login/");
+    final response = await request
+        .get("https://pusat-pengaduan.up.railway.app/auth/data_login/");
     if (response[0] == null) {
       return {"status": false};
     } else {
