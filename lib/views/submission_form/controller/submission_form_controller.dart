@@ -34,7 +34,8 @@ class SubmissionFormController extends GetxController {
   final scrollController = ScrollController();
   var isAgree = false.obs;
   var dateTime = DateTime.now();
-  var report;
+  late Report report;
+  late Fields fields;
 
   String? validateTextField(String? value) {
     if (value == null || value.isEmpty) {
@@ -53,16 +54,6 @@ class SubmissionFormController extends GetxController {
 
   validateForm() {
     if (formKey.currentState!.validate() && isAgree.value) {
-      Get.snackbar("Succes", "Laporan berhasil dikirim",
-          duration: const Duration(seconds: 2),
-          snackPosition: SnackPosition.TOP,
-          margin: const EdgeInsets.all(kDefaultPadding / 2),
-          backgroundColor: kSuccessColor,
-          colorText: kWhiteColor,
-          icon: const Icon(
-            Icons.check_circle_outline,
-            color: kWhiteColor,
-          ));
       getDataForm();
       return true;
     } else if (!isAgree.value && !formKey.currentState!.validate()) {
@@ -103,6 +94,32 @@ class SubmissionFormController extends GetxController {
     return false;
   }
 
+  successSnackbar() {
+    Get.snackbar("Succes", "Laporan berhasil dikirim",
+        duration: const Duration(seconds: 2),
+        snackPosition: SnackPosition.TOP,
+        margin: const EdgeInsets.all(kDefaultPadding / 2),
+        backgroundColor: kSuccessColor,
+        colorText: kWhiteColor,
+        icon: const Icon(
+          Icons.check_circle_outline,
+          color: kWhiteColor,
+        ));
+  }
+
+  errorSnackbar() {
+    Get.snackbar("Error", "Terjadi error saat mengirim laporan, coba lagi nanti",
+        duration: const Duration(seconds: 2),
+        snackPosition: SnackPosition.TOP,
+        margin: const EdgeInsets.all(kDefaultPadding / 2),
+        backgroundColor: kErrorColor,
+        colorText: kWhiteColor,
+        icon: const Icon(
+          Icons.error_outline_rounded,
+          color: kWhiteColor,
+        ));
+  }
+
   clearForm() {
     formKey.currentState!.reset();
     titleController.value.clear();
@@ -117,7 +134,7 @@ class SubmissionFormController extends GetxController {
 
   getDataForm() {
     // TODO: Implement post report
-    var userSubmission = 0;
+    var userSubmission = 3;
     var adminSubmission = 0;
     var pk = 0;
     var title = titleController.value.text;
@@ -127,7 +144,7 @@ class SubmissionFormController extends GetxController {
     var involvedParty = pihakController.value.text;
     var location = lokasiController.value.text;
 
-    var fields = Fields(
+    fields = Fields(
         userSubmission: userSubmission,
         adminSubmission: adminSubmission,
         title: title,

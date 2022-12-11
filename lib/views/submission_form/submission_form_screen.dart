@@ -1,10 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:pusat_pengaduan/common/constant.dart';
 import 'package:pusat_pengaduan/controller/route_controller.dart';
-import 'package:pusat_pengaduan/models/report/report.dart';
 import 'package:pusat_pengaduan/views/submission_form/controller/submission_form_controller.dart';
 import 'package:pusat_pengaduan/views/submission_form/widgets/custom_dropdown.dart';
 import 'package:pusat_pengaduan/views/submission_form/widgets/custom_footer_button.dart';
@@ -19,6 +20,13 @@ class SubmissionFormScreen extends StatelessWidget {
     final controller = Get.find<SubmissionFormController>();
     final request = context.watch<CookieRequest>();
 
+    reportPost(data) async {
+      final response = await request.post(
+          'http://127.0.0.1:8000/submission_form/add_report_flutter/',
+          jsonEncode(data));
+      return response;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Buat Laporan'),
@@ -31,7 +39,7 @@ class SubmissionFormScreen extends StatelessWidget {
         Container(
           margin: const EdgeInsets.all(kDefaultPadding),
           child: Form(
-            autovalidateMode: AutovalidateMode.always,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             key: controller.formKey,
             child: Column(
               children: [
@@ -119,17 +127,15 @@ class SubmissionFormScreen extends StatelessWidget {
           label: 'Submit',
           onPressed: () async {
             if (controller.validateForm()) {
-              var data = reportToJson(controller.report);
-              try {
-                final response = await request.post(
-                    'https://pusat-pengaduan.up.railway.app/submission_form/json/',
-                    data);
-                print(response);
-              } on Exception catch (e) {
-                // TODO
+              var data = controller.fields.toJson();
+              var response = await reportPost(data);
+              if (response["status"] == "success") {
+                controller.successSnackbar();
+                controller.clearForm();
+                Get.back();
+              } else {
+                controller.errorSnackbar();
               }
-              controller.clearForm();
-              Get.back();
             }
           },
         ),
