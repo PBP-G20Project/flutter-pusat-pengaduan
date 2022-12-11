@@ -17,7 +17,8 @@ class HomePageScreen extends StatelessWidget {
   const HomePageScreen({super.key});
 
   getReview(request) async {
-    final response = await request.get("http://localhost:8000/json_review/");
+    final response = await request
+        .get("https://pusat-pengaduan.up.railway.app/json_review/");
     // print(response);
     List<Review> listReview = [];
     for (var i in response) {
@@ -48,26 +49,16 @@ class HomePageScreen extends StatelessWidget {
               fontWeight: FontWeight.bold,
             )),
       ),
+      drawer: CustomDrawer(
+        title: 'Pusat Pengaduan',
+        menu: RouteController.getDrawerRoute(kHome, request),
+      ),
       body: ListView(
         children: [
           Image.asset(
             'assets/images/palu.png',
             width: 300,
             height: 300,
-          ),
-          Container(
-            margin: const EdgeInsets.fromLTRB(20, 20, 400, 10),
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: kWhiteColor,
-                  minimumSize: const Size(120, 40),
-                  maximumSize: const Size(120, 40),
-                ),
-                onPressed: () => controller
-                    .navigateToLogin(), // contoh penggunaan navigator pushNamed dengan getx
-                child: const Text('Login',
-                    style: TextStyle(
-                        color: kPrimaryColor, fontWeight: FontWeight.w500))),
           ),
           Container(
               margin: const EdgeInsets.fromLTRB(20, 10, 400, 10),
@@ -158,32 +149,6 @@ class HomePageScreen extends StatelessWidget {
                 )),
           ),
           Container(
-            margin: const EdgeInsets.fromLTRB(20, 20, 400, 10),
-            child: ElevatedButton(
-                onPressed: () => controller.navigateToReviewForm(),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: kWhiteColor,
-                  minimumSize: const Size(120, 40),
-                  maximumSize: const Size(120, 40),
-                ), // contoh penggunaan navigator pushNamed dengan getx
-                child: const Text('Review',
-                    style: TextStyle(
-                        color: kPrimaryColor, fontWeight: FontWeight.w500))),
-          ),
-          Container(
-            margin: const EdgeInsets.fromLTRB(20, 10, 400, 20),
-            child: ElevatedButton(
-                onPressed: () => controller.navigateToBeritaDetail(),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: kWhiteColor,
-                  minimumSize: const Size(120, 40),
-                  maximumSize: const Size(120, 40),
-                ), // contoh penggunaan navigator pushNamed dengan getx
-                child: const Text('Lapor',
-                    style: TextStyle(
-                        color: kPrimaryColor, fontWeight: FontWeight.w500))),
-          ),
-          Container(
               margin: const EdgeInsets.fromLTRB(20, 20, 400, 20),
               child: const Text(
                 "Review",
@@ -246,7 +211,6 @@ class HomePageScreen extends StatelessWidget {
             },
           ),
         ],
-
       ),
     );
   }

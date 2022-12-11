@@ -31,7 +31,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
   String _rating = '0';
 
   reviewPost(request) async {
-    final response = await request.post('http://localhost:8000/isi_form/',
+    final response = await request.post(
+        'https://pusat-pengaduan.up.railway.app/isi_form/',
         {'comment': _review, 'rating': _rating});
     print(response);
     return response;

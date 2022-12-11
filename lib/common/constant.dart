@@ -15,3 +15,4 @@ const kDashboardAdmin = 'Dashboard Admin';
 const kRegister = 'Register';
 const kLogin = 'Login';
 const kLogout = 'Logout';
+const kReview = 'Review';
