@@ -3,14 +3,14 @@ import 'package:pusat_pengaduan/common/constant.dart';
 import 'package:pusat_pengaduan/utils/route.dart';
 
 class RouteController {
-  static late Map<String, void Function()?> _drawerRoute;
+  static Map<String, void Function()?> _drawerRoute = {};
 
   static Map<String, void Function()?> userDrawerRoute = {
     kHome: () => Get.offNamed(homePageRoute),
     kDashboardUser: () => Get.offNamed(dashboardUserRoute),
     kSubmission: () => Get.offNamed(submissionRoute),
     kProfile: () => Get.offNamed(profileRoute),
-    kLogout: () => Get.offNamed(loginRoute),  // TODO: implement logout
+    kLogout: () => Get.offNamed(loginRoute), // TODO: implement logout
   };
 
   static Map<String, void Function()?> adminDrawerRoute = {
@@ -18,7 +18,7 @@ class RouteController {
     kDashboardAdmin: () => Get.offNamed(dashboardAdminRoute),
     kSubmission: () => Get.offNamed(submissionRoute),
     kProfile: () => Get.offNamed(profileRoute),
-    kLogout: () => Get.offNamed(loginRoute),  // TODO: implement logout
+    kLogout: () => Get.offNamed(loginRoute), // TODO: implement logout
   };
 
   static Map<String, void Function()?> guestDrawerRoute = {
@@ -40,12 +40,12 @@ class RouteController {
   static Map<String, void Function()?> getDrawerRoute(String from) {
     if (isLoggedIn()) {
       if (isUser()) {
-        _drawerRoute = userDrawerRoute;
+        _drawerRoute.addAll(userDrawerRoute);
       } else {
-        _drawerRoute = adminDrawerRoute;
+        _drawerRoute.addAll(adminDrawerRoute);
       }
     } else {
-      _drawerRoute = guestDrawerRoute;
+      _drawerRoute.addAll(guestDrawerRoute);
     }
 
     try {
