@@ -3,7 +3,9 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 import 'package:pusat_pengaduan/common/constant.dart';
+import 'package:pusat_pengaduan/controller/route_controller.dart';
 import 'package:pusat_pengaduan/views/login/controller/login_controller.dart';
+import 'package:pusat_pengaduan/views/widgets/custom_drawer.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -45,6 +47,10 @@ class _LoginScreenPageState extends State<LoginScreen> {
               color: kWhiteColor,
               fontWeight: FontWeight.bold,
             )),
+      ),
+      drawer: CustomDrawer(
+        title: 'Pusat Pengaduan',
+        menu: RouteController.getDrawerRoute(kLogin),
       ),
       body: Form(
         key: _loginFormKey,

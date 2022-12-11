@@ -4,6 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 import 'package:pusat_pengaduan/common/constant.dart';
 import 'package:pusat_pengaduan/views/register/controller/register_controller.dart';
+import 'package:pusat_pengaduan/common/constant.dart';
+import 'package:pusat_pengaduan/controller/route_controller.dart';
+import 'package:pusat_pengaduan/views/widgets/custom_drawer.dart';
+
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -288,6 +292,7 @@ class _RegisterScreenPage extends State<RegisterScreen> {
               ),
             ],
           ),
+
         ),
       ),
     );

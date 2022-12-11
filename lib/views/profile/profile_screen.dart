@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 import 'package:pusat_pengaduan/common/constant.dart';
 import 'package:pusat_pengaduan/views/profile/controller/profile_controller.dart';
 import 'package:pusat_pengaduan/views/profile/model/profile_model.dart';
+
+import 'package:pusat_pengaduan/common/constant.dart';
+import 'package:pusat_pengaduan/controller/route_controller.dart';
+import 'package:pusat_pengaduan/views/widgets/custom_drawer.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -44,6 +49,7 @@ class _ProfileScreenPageState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     final request = context.watch<CookieRequest>();
 
     return Scaffold(
@@ -250,6 +256,7 @@ class _ProfileScreenPageState extends State<ProfileScreen> {
               }
             }
           }),
+
     );
   }
 }
