@@ -3,7 +3,7 @@ import 'package:pusat_pengaduan/common/constant.dart';
 import 'package:pusat_pengaduan/utils/route.dart';
 
 class RouteController {
-  static Map<String, void Function()?> _drawerRoute = {};
+  static final Map<String, void Function()?> _drawerRoute = {};
 
   static Map<String, void Function()?> userDrawerRoute = {
     kHome: () => Get.offNamed(homePageRoute),
@@ -38,6 +38,7 @@ class RouteController {
   }
 
   static Map<String, void Function()?> getDrawerRoute(String from) {
+    _drawerRoute.clear();
     if (isLoggedIn()) {
       if (isUser()) {
         _drawerRoute.addAll(userDrawerRoute);
