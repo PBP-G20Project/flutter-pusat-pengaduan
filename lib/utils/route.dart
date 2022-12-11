@@ -27,6 +27,7 @@ import 'package:pusat_pengaduan/views/submission_form/submission_form_screen.dar
 const splashRoute = "/splash";
 
 const loginRoute = "/login";
+const logoutRoute = "/logout";
 const registerRoute = "/register";
 const profileRoute = "/profile";
 

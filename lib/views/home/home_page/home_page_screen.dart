@@ -13,8 +13,8 @@ class HomePageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // get controller
-    final controller = Get.find<HomePageController>();
     final request = context.watch<CookieRequest>();
+    final controller = Get.find<HomePageController>();
     // test_logout(request);
 
     return Scaffold(
@@ -28,7 +28,7 @@ class HomePageScreen extends StatelessWidget {
       ),
       drawer: CustomDrawer(
         title: 'Pusat Pengaduan',
-        menu: RouteController.getDrawerRoute(kHome),
+        menu: RouteController.getDrawerRoute(kHome, request),
       ),
       body: Center(
         child: Column(

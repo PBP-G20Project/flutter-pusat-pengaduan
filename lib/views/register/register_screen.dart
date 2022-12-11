@@ -8,7 +8,6 @@ import 'package:pusat_pengaduan/common/constant.dart';
 import 'package:pusat_pengaduan/controller/route_controller.dart';
 import 'package:pusat_pengaduan/views/widgets/custom_drawer.dart';
 
-
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
@@ -42,15 +41,27 @@ class _RegisterScreenPage extends State<RegisterScreen> {
 
   registerRequest(request) async {
     // ganti railway
-    final response =
-        await request.post("http://127.0.0.1:8000/auth/register_user/", {
+    final response = await request
+        .post("https://pusat-pengaduan.up.railway.app/auth/register_user/", {
       'email': email,
       'password1': password1,
       'password2': password_re_enter,
       'nama': name,
       'nik': nik,
     });
-    print(response);
+    return response;
+  }
+
+  registerAdminRequest(request) async {
+    // ganti railway
+    final response = await request.post(
+        "https://pusat-pengaduan.up.railway.app/auth/register_user_admin/", {
+      'email': email,
+      'password1': password1,
+      'password2': password_re_enter,
+      'nama': name,
+      'nik': nik,
+    });
     return response;
   }
 
@@ -65,6 +76,10 @@ class _RegisterScreenPage extends State<RegisterScreen> {
               color: kWhiteColor,
               fontWeight: FontWeight.bold,
             )),
+      ),
+      drawer: CustomDrawer(
+        title: 'Pusat Pengaduan',
+        menu: RouteController.getDrawerRoute(kRegister, request),
       ),
       body: Form(
         key: _RegisterFormKey,
@@ -241,58 +256,114 @@ class _RegisterScreenPage extends State<RegisterScreen> {
                 ),
               ),
               Expanded(
-                child: Align(
-                    alignment: FractionalOffset.bottomCenter,
-                    child: TextButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.blue),
-                      ),
-                      onPressed: () async {
-                        registerRequest(request).then((result) {
-                          String msg = result['message'];
-                          if (result['status']) {
-                            showDialog<String>(
-                              context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                title: const Text('Berhasil Register',
-                                    style: TextStyle(color: Colors.green)),
-                                content: Text("$msg"),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () =>
-                                        controller.navigateToLogin(),
-                                    child: const Text('OK'),
-                                  ),
-                                ],
-                              ),
-                            );
-                          } else {
-                            showDialog<String>(
-                              context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                title: const Text('Gagal Register',
-                                    style: TextStyle(color: Colors.red)),
-                                content: Text("$msg"),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: const Text('Kembali'),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }
-                        });
-                      },
-                      child: const Text(
-                        "Simpan",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    )),
-              ),
+                  child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Align(
+                      alignment: FractionalOffset.bottomCenter,
+                      child: TextButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.lightBlue),
+                        ),
+                        onPressed: () async {
+                          registerRequest(request).then((result) {
+                            String msg = result['message'];
+                            if (result['status']) {
+                              showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('Berhasil Register',
+                                      style: TextStyle(color: Colors.green)),
+                                  content: Text("$msg"),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () =>
+                                          controller.navigateToLogin(),
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('Gagal Register',
+                                      style: TextStyle(color: Colors.red)),
+                                  content: Text("$msg"),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('Kembali'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                          });
+                        },
+                        child: const Text(
+                          "Daftar Sebagai User",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      )),
+                  SizedBox(width: 50),
+                  Align(
+                      alignment: FractionalOffset.bottomCenter,
+                      child: TextButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.blueGrey),
+                        ),
+                        onPressed: () async {
+                          registerAdminRequest(request).then((result) {
+                            String msg = result['message'];
+                            if (result['status']) {
+                              showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text(
+                                      'Berhasil Register Sebagai Admin',
+                                      style: TextStyle(color: Colors.green)),
+                                  content: Text("$msg"),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () =>
+                                          controller.navigateToLogin(),
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text(
+                                      'Gagal Register Sebagai Admin',
+                                      style: TextStyle(color: Colors.red)),
+                                  content: Text("$msg"),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('Kembali'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                          });
+                        },
+                        child: const Text(
+                          "Daftar Sebagai Admin",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      )),
+                ],
+              )),
             ],
           ),
-
         ),
       ),
     );
