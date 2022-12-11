@@ -47,7 +47,7 @@ class PusatPengaduanApp extends StatelessWidget {
           textTheme: GoogleFonts.rubikTextTheme(),
         ),
         getPages: route,
-        initialRoute: splashRoute, // sesuaikan dengan route yang diinginkan
+        initialRoute: dashboardAdminRoute, // sesuaikan dengan route yang diinginkan
       ),
     );
   }
