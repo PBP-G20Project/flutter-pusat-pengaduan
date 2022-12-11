@@ -63,6 +63,7 @@ class SubmissionFormController extends GetxController {
             Icons.check_circle_outline,
             color: kWhiteColor,
           ));
+      getDataForm();
       return true;
     } else if (!isAgree.value && !formKey.currentState!.validate()) {
       Get.snackbar("Error", "Harap isi semua field dan setujui persyaratan",
@@ -100,12 +101,6 @@ class SubmissionFormController extends GetxController {
           ));
     }
     return false;
-  }
-
-  submitForm() {
-    if (validateForm()) {
-      getDataForm();
-    }
   }
 
   clearForm() {

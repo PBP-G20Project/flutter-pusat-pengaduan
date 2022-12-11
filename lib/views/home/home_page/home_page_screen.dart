@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pusat_pengaduan/common/constant.dart';
+import 'package:pusat_pengaduan/controller/route_controller.dart';
 import 'package:pusat_pengaduan/views/home/home_page/controller/home_page_controller.dart';
+import 'package:pusat_pengaduan/views/widgets/custom_drawer.dart';
 
 class HomePageScreen extends StatelessWidget {
   const HomePageScreen({super.key});
@@ -19,6 +21,10 @@ class HomePageScreen extends StatelessWidget {
               color: kWhiteColor,
               fontWeight: FontWeight.bold,
             )),
+      ),
+      drawer: CustomDrawer(
+        title: 'Pusat Pengaduan',
+        menu: RouteController.getDrawerRoute(kHome),
       ),
       body: Center(
         child: Column(
