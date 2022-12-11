@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'package:get/get.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:pusat_pengaduan/common/constant.dart';
@@ -34,7 +33,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
     final response = await request.post(
         'https://pusat-pengaduan.up.railway.app/isi_form/',
         {'comment': _review, 'rating': _rating});
-    print(response);
     return response;
   }
 
@@ -119,7 +117,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                             builder: (BuildContext context) => AlertDialog(
                                   title: const Text('Berhasil Review',
                                       style: TextStyle(color: Colors.green)),
-                                  content: Text("$msg"),
+                                  content: Text(msg),
                                   actions: <Widget>[
                                     TextButton(
                                         onPressed: () =>
@@ -133,7 +131,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                             builder: (BuildContext context) => AlertDialog(
                                   title: const Text("Gagal Review",
                                       style: TextStyle(color: Colors.red)),
-                                  content: Text("$msg"),
+                                  content: Text(msg),
                                   actions: <Widget>[
                                     TextButton(
                                         onPressed: () => Navigator.pop(context),
