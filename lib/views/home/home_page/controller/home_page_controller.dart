@@ -8,6 +8,8 @@ class HomePageController extends GetxController {
     super.onInit();
   }
 
+  
+
   // contoh penggunaan navigator pushNamed dengan getx
   navigateToBeritaDetail() {
     // Get.toNamed(beritaDetailRoute);
@@ -17,4 +19,6 @@ class HomePageController extends GetxController {
   navigateToLogin() {
     Get.toNamed(loginRoute);
   }
+
+
 }
