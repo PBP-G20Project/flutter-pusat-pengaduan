@@ -6,7 +6,7 @@ import 'package:pusat_pengaduan/utils/route.dart';
 import 'package:pusat_pengaduan/models/report/profile_model.dart';
 
 class RouteController {
-  static Map<String, void Function()?> _drawerRoute = {};
+  static final Map<String, void Function()?> _drawerRoute = {};
 
   static Map<String, void Function()?> userDrawerRoute = {
     kHome: () => Get.offNamed(homePageRoute),

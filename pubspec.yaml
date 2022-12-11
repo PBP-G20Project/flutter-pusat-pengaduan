@@ -32,7 +32,7 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^5.0.0
-  pbp_django_auth: ^0.2.3
+  pbp_django_auth: ^0.3.0
 
 
   # The following adds the Cupertino Icons font to your application.
