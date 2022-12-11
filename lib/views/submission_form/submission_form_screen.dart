@@ -25,7 +25,7 @@ class SubmissionFormScreen extends StatelessWidget {
       ),
       drawer: CustomDrawer(
         title: 'Pusat Pengaduan',
-        menu: RouteController.getDrawerRoute(kSubmission),
+        menu: RouteController.getDrawerRoute(kSubmission, request),
       ),
       body: ListView(controller: controller.scrollController, children: [
         Container(

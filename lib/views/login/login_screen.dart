@@ -4,8 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 import 'package:pusat_pengaduan/common/constant.dart';
 import 'package:pusat_pengaduan/controller/route_controller.dart';
+import 'package:pusat_pengaduan/pusat_pengaduan_app.dart';
 import 'package:pusat_pengaduan/views/login/controller/login_controller.dart';
 import 'package:pusat_pengaduan/views/widgets/custom_drawer.dart';
+import 'package:pusat_pengaduan/models/report/profile_model.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -36,6 +38,17 @@ class _LoginScreenPageState extends State<LoginScreen> {
     return response;
   }
 
+  getProfile(request) async {
+    final response =
+        await request.get("http://127.0.0.1:8000/auth/data_login/");
+    if (response[0] == null) {
+      return {"status": false};
+    } else {
+      User user = User.fromJson(response[0]);
+      return {"user": user, "status": true};
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
@@ -50,7 +63,7 @@ class _LoginScreenPageState extends State<LoginScreen> {
       ),
       drawer: CustomDrawer(
         title: 'Pusat Pengaduan',
-        menu: RouteController.getDrawerRoute(kLogin),
+        menu: RouteController.getDrawerRoute(kLogin, request),
       ),
       body: Form(
         key: _loginFormKey,
@@ -135,6 +148,9 @@ class _LoginScreenPageState extends State<LoginScreen> {
                         loginRequest(request).then((result) {
                           if (request.loggedIn) {
                             String msg = "Anda Berhasil Login";
+                            getProfile(request).then((result2) {
+                              is_user = result2['user'].fields.admin == false;
+                            });
                             showDialog<String>(
                               context: context,
                               builder: (BuildContext context) => AlertDialog(
