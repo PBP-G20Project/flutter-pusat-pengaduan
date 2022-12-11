@@ -119,8 +119,7 @@ class SubmissionFormScreen extends StatelessWidget {
           label: 'Submit',
           onPressed: () async {
             if (await controller.validateForm(request)) {
-              var data = controller.fields.toJson();
-              controller.reportPost(request, data).then((response) {
+              controller.reportPost(request).then((response) {
                 if (response["status"] == "success") {
                   controller.successSubmit();
                 } else {

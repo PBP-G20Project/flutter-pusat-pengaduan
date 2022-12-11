@@ -36,17 +36,16 @@ class Report {
   String status;
 
   factory Report.fromJson(Map<String, dynamic> json) => Report(
-        userSubmission: json["user_submission"],
-        adminSubmission: json["admin_submission"],
-        title: json["title"],
-        content: json["content"],
-        institution: json["institution"],
-        institutionLevel: json["institution_level"],
-        involvedParty: json["involved_party"],
-        date: DateTime.parse(json["date"]),
-        location: json["location"],
-        status: json["status"],
-      );
+      userSubmission: json["user_submission"],
+      adminSubmission: json["admin_submission"],
+      title: json["title"],
+      content: json["content"],
+      institution: json["institution"],
+      institutionLevel: json["institution_level"],
+      involvedParty: json["involved_party"],
+      date: DateTime.parse(json["date"]),
+      location: json["location"],
+      status: json["status"]);
 
   Map<String, dynamic> toJson() => {
         "user_submission": userSubmission,
@@ -58,6 +57,6 @@ class Report {
         "involved_party": involvedParty,
         "date": DateFormat("yyyy-MM-ddTHH:mm:ss").format(date),
         "location": location,
-        "status": status,
+        "status": status
       };
 }

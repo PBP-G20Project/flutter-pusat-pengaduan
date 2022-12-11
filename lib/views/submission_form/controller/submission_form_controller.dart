@@ -10,12 +10,6 @@ import 'package:pusat_pengaduan/models/profile/profile_model.dart';
 
 class SubmissionFormController extends GetxController {
   @override
-  // ignore: unnecessary_overrides
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
   void dispose() {
     titleController.value.dispose();
     contentController.value.dispose();
@@ -39,6 +33,8 @@ class SubmissionFormController extends GetxController {
   var isAgree = false.obs;
   var dateTime = DateTime.now();
   late Report fields;
+  // ignore: prefer_typing_uninitialized_variables
+  late var data;
 
   String? validateTextField(String? value) {
     if (value == null || value.isEmpty) {
@@ -57,7 +53,35 @@ class SubmissionFormController extends GetxController {
 
   validateForm(request) async {
     if (formKey.currentState!.validate() && isAgree.value) {
-      await getDataForm(request);
+      String userSubmission;
+      final response = await request
+          .get("https://pusat-pengaduan.up.railway.app/auth/data_login/");
+      if (response[0] == null) {
+        userSubmission = "0";
+      } else {
+        User user = User.fromJson(response[0]);
+        userSubmission = "${user.pk}";
+      }
+      var adminSubmission = "-1"; // abaikan
+      var title = titleController.value.text;
+      var content = contentController.value.text;
+      var institution = instansiController.value.text;
+      var institutionLevel = tipeController.value.text;
+      var involvedParty = pihakController.value.text;
+      var location = lokasiController.value.text;
+
+      fields = Report(
+          userSubmission: userSubmission,
+          adminSubmission: adminSubmission,
+          title: title,
+          content: content,
+          institution: institution,
+          institutionLevel: institutionLevel,
+          involvedParty: involvedParty,
+          date: dateTime,
+          location: location,
+          status: "PENDING");
+      data = fields.toJson();
       return true;
     } else if (!isAgree.value && !formKey.currentState!.validate()) {
       Get.snackbar("Error", "Harap isi semua field dan setujui persyaratan",
@@ -125,29 +149,6 @@ class SubmissionFormController extends GetxController {
         ));
   }
 
-  getDataForm(request) async {
-    var userSubmission = await getUserId(request);
-    var adminSubmission = "-"; // abaikan
-    var title = titleController.value.text;
-    var content = contentController.value.text;
-    var institution = instansiController.value.text;
-    var institutionLevel = tipeController.value.text;
-    var involvedParty = pihakController.value.text;
-    var location = lokasiController.value.text;
-
-    fields = Report(
-        userSubmission: await userSubmission,
-        adminSubmission: adminSubmission,
-        title: title,
-        content: content,
-        institution: institution,
-        institutionLevel: institutionLevel,
-        involvedParty: involvedParty,
-        date: dateTime,
-        location: location,
-        status: "PENDING");
-  }
-
   chooseDate({required BuildContext context}) async {
     final date = await showDatePicker(
       context: context,
@@ -162,21 +163,9 @@ class SubmissionFormController extends GetxController {
     return null;
   }
 
-  reportPost(request, data) async {
+  reportPost(request) async {
     final response = await request.post(
-        'http://pusat-pengaduan.up.railway.app/submission_form/add_report_flutter/',
-        jsonEncode(data));
+        'http://pusat-pengaduan.up.railway.app/submission_form/create/', data);
     return response;
-  }
-
-  getUserId(request) async {
-    final response = await request
-        .get("http://pusat-pengaduan.up.railway.app/auth/data_login/");
-    if (response[0] == null) {
-      return 4;
-    } else {
-      User user = User.fromJson(response[0]);
-      return "${user.pk}";
-    }
   }
 }
