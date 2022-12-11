@@ -10,6 +10,6 @@ class LoginController extends GetxController {
 
   navigateToHomePage() {
     // Get.toNamed(beritaDetailRoute);
-    Get.toNamed(homePageRoute);
+    Get.offNamed(homePageRoute);
   }
 }

@@ -17,6 +17,6 @@ class HomePageController extends GetxController {
   }
 
   navigateToLogin() {
-    Get.toNamed(loginRoute);
+    Get.offNamed(loginRoute);
   }
 }
