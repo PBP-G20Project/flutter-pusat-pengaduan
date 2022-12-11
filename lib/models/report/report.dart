@@ -24,8 +24,8 @@ class Report {
     required this.status,
   });
 
-  int userSubmission;
-  int adminSubmission;
+  String userSubmission;
+  String adminSubmission;
   String title;
   String content;
   String institution;

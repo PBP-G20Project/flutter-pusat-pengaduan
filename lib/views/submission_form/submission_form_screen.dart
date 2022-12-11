@@ -120,12 +120,13 @@ class SubmissionFormScreen extends StatelessWidget {
           onPressed: () async {
             if (await controller.validateForm(request)) {
               var data = controller.fields.toJson();
-              var response = await controller.reportPost(request, data);
-              if (response["status"] == "success") {
-                controller.successSubmit();
-              } else {
-                controller.errorSnackbar();
-              }
+              controller.reportPost(request, data).then((response) {
+                if (response["status"] == "success") {
+                  controller.successSubmit();
+                } else {
+                  controller.errorSnackbar();
+                }
+              });
             }
           },
         ),

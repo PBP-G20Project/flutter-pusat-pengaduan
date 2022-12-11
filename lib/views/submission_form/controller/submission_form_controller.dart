@@ -127,7 +127,7 @@ class SubmissionFormController extends GetxController {
 
   getDataForm(request) async {
     var userSubmission = await getUserId(request);
-    var adminSubmission = 0; // abaikan
+    var adminSubmission = "-"; // abaikan
     var title = titleController.value.text;
     var content = contentController.value.text;
     var institution = instansiController.value.text;
@@ -136,7 +136,7 @@ class SubmissionFormController extends GetxController {
     var location = lokasiController.value.text;
 
     fields = Report(
-        userSubmission: userSubmission,
+        userSubmission: await userSubmission,
         adminSubmission: adminSubmission,
         title: title,
         content: content,
@@ -173,10 +173,10 @@ class SubmissionFormController extends GetxController {
     final response = await request
         .get("http://pusat-pengaduan.up.railway.app/auth/data_login/");
     if (response[0] == null) {
-      return {"status": false};
+      return 4;
     } else {
       User user = User.fromJson(response[0]);
-      return user.pk;
+      return "${user.pk}";
     }
   }
 }
