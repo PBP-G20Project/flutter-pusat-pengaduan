@@ -146,45 +146,48 @@ class _LoginScreenPageState extends State<LoginScreen> {
                         backgroundColor: MaterialStateProperty.all(Colors.blue),
                       ),
                       onPressed: () async {
-                        loginRequest(request).then((result) {
-                          if (request.loggedIn) {
-                            String msg = "Anda Berhasil Login";
-                            getProfile(request).then((result2) {
-                              is_user = result2['user'].fields.admin == false;
-                            });
-                            showDialog<String>(
-                              context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                title: const Text('Berhasil Login',
-                                    style: TextStyle(color: Colors.green)),
-                                content: Text("$msg"),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () =>
-                                        controller.navigateToHomePage(),
-                                    child: const Text('OK'),
-                                  ),
-                                ],
-                              ),
-                            );
-                          } else {
-                            showDialog<String>(
-                              context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                title: const Text('Gagal Login',
-                                    style: TextStyle(color: Colors.red)),
-                                content: const Text(
-                                    'Email atau Password Anda Salah'),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: const Text('Kembali'),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }
-                        });
+                        if (_loginFormKey.currentState!.validate()) {
+                          loginRequest(request).then((result) {
+                            if (request.loggedIn) {
+                              String msg = "Anda Berhasil Login";
+                              getProfile(request).then((result2) {
+                                is_user = result2['user'].fields.admin == false;
+                              });
+                              showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('Berhasil Login',
+                                      style: TextStyle(color: Colors.green)),
+                                  content: Text(msg),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () =>
+                                          controller.navigateToHomePage(),
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('Gagal Login',
+                                      style: TextStyle(color: Colors.red)),
+                                  content: const Text(
+                                      'Email atau Password Anda Salah'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('Kembali'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                            // }
+                          });
+                        }
                       },
                       child: const Text(
                         "Simpan",
