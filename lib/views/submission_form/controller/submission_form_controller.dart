@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:pusat_pengaduan/common/constant.dart';
 import 'package:pusat_pengaduan/models/report/report.dart';
 import 'package:pusat_pengaduan/utils/route.dart';
-import 'package:pusat_pengaduan/views/profile/model/profile_model.dart';
+import 'package:pusat_pengaduan/models/profile/profile_model.dart';
 
 class SubmissionFormController extends GetxController {
   @override
@@ -170,8 +170,8 @@ class SubmissionFormController extends GetxController {
   }
 
   getUserId(request) async {
-    final response =
-        await request.get("http://pusat-pengaduan.up.railway.app/auth/data_login/");
+    final response = await request
+        .get("http://pusat-pengaduan.up.railway.app/auth/data_login/");
     if (response[0] == null) {
       return {"status": false};
     } else {

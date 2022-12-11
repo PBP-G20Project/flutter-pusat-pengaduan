@@ -7,7 +7,7 @@ import 'package:pusat_pengaduan/controller/route_controller.dart';
 import 'package:pusat_pengaduan/pusat_pengaduan_app.dart';
 import 'package:pusat_pengaduan/views/login/controller/login_controller.dart';
 import 'package:pusat_pengaduan/views/widgets/custom_drawer.dart';
-import 'package:pusat_pengaduan/models/report/profile_model.dart';
+import 'package:pusat_pengaduan/models/profile/profile_model.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
