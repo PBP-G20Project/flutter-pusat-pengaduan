@@ -1,9 +1,10 @@
 import 'package:get/get.dart';
 import 'package:pusat_pengaduan/common/constant.dart';
+import 'package:pusat_pengaduan/pusat_pengaduan_app.dart';
 import 'package:pusat_pengaduan/utils/route.dart';
 
 class RouteController {
-  static Map<String, void Function()?> _drawerRoute = {};
+  static final Map<String, void Function()?> _drawerRoute = {};
 
   static Map<String, void Function()?> userDrawerRoute = {
     kHome: () => Get.offNamed(homePageRoute),
@@ -27,19 +28,19 @@ class RouteController {
     kLogin: () => Get.offNamed(loginRoute),
   };
 
-  static isLoggedIn() {
-    // TODO: implement isLoggedIn
-    return true;
+  static isLoggedIn(request) {
+    return request.loggedIn;
   }
 
-  static isUser() {
+  static isUser(request) {
     // TODO: implement isUser/isAdmin
-    return true;
+    return is_user;
   }
 
-  static Map<String, void Function()?> getDrawerRoute(String from) {
-    if (isLoggedIn()) {
-      if (isUser()) {
+  static Map<String, void Function()?> getDrawerRoute(String from, request) {
+    _drawerRoute.clear();
+    if (isLoggedIn(request)) {
+      if (isUser(request)) {
         _drawerRoute.addAll(userDrawerRoute);
       } else {
         _drawerRoute.addAll(adminDrawerRoute);

@@ -11,6 +11,8 @@ import 'package:get/get.dart';
 import 'package:pusat_pengaduan/views/dashboard/dashboard_admin/controller/dashboard_admin_controller.dart';
 
 import '../../submission_form/widgets/custom_dropdown.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 
 class DashboardAdminScreen extends StatefulWidget {
   const DashboardAdminScreen({super.key});
@@ -52,13 +54,14 @@ class _DashboardAdmin extends State<DashboardAdminScreen> {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<DashboardAdminController>();
+    final request = context.watch<CookieRequest>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dashboard Admin'),
       ),
       drawer: CustomDrawer(
         title: 'Pusat Pengaduan',
-        menu: RouteController.getDrawerRoute(kDashboardAdmin),
+        menu: RouteController.getDrawerRoute(kDashboardAdmin, request),
       ),
       body: ListView(controller: controller.scrollController, children: [
         Container(

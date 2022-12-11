@@ -4,7 +4,6 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:pusat_pengaduan/common/constant.dart';
 import 'package:pusat_pengaduan/controller/route_controller.dart';
-import 'package:pusat_pengaduan/models/report/report.dart';
 import 'package:pusat_pengaduan/views/submission_form/controller/submission_form_controller.dart';
 import 'package:pusat_pengaduan/views/submission_form/widgets/custom_dropdown.dart';
 import 'package:pusat_pengaduan/views/submission_form/widgets/custom_footer_button.dart';
@@ -25,13 +24,13 @@ class SubmissionFormScreen extends StatelessWidget {
       ),
       drawer: CustomDrawer(
         title: 'Pusat Pengaduan',
-        menu: RouteController.getDrawerRoute(kSubmission),
+        menu: RouteController.getDrawerRoute(kSubmission, request),
       ),
       body: ListView(controller: controller.scrollController, children: [
         Container(
           margin: const EdgeInsets.all(kDefaultPadding),
           child: Form(
-            autovalidateMode: AutovalidateMode.always,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             key: controller.formKey,
             child: Column(
               children: [
@@ -94,6 +93,7 @@ class SubmissionFormScreen extends StatelessWidget {
                     controller: controller.dateController.value,
                     validator: controller.validateTextField,
                     icon: const Icon(Icons.calendar_today),
+                    readOnly: true,
                     onTap: () {
                       controller.chooseDate(context: context);
                     })),
@@ -118,18 +118,14 @@ class SubmissionFormScreen extends StatelessWidget {
         CustomFooterButton(
           label: 'Submit',
           onPressed: () async {
-            if (controller.validateForm()) {
-              var data = reportToJson(controller.report);
-              try {
-                final response = await request.post(
-                    'https://pusat-pengaduan.up.railway.app/submission_form/json/',
-                    data);
-                print(response);
-              } on Exception catch (e) {
-                // TODO
+            if (await controller.validateForm(request)) {
+              var data = controller.fields.toJson();
+              var response = await controller.reportPost(request, data);
+              if (response["status"] == "success") {
+                controller.successSubmit();
+              } else {
+                controller.errorSnackbar();
               }
-              controller.clearForm();
-              Get.back();
             }
           },
         ),

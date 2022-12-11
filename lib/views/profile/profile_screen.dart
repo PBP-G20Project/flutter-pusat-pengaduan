@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 import 'package:pusat_pengaduan/common/constant.dart';
 import 'package:pusat_pengaduan/views/profile/controller/profile_controller.dart';
-import 'package:pusat_pengaduan/views/profile/model/profile_model.dart';
-
-import 'package:pusat_pengaduan/common/constant.dart';
+import 'package:pusat_pengaduan/models/profile/profile_model.dart';
 import 'package:pusat_pengaduan/controller/route_controller.dart';
 import 'package:pusat_pengaduan/views/widgets/custom_drawer.dart';
 
@@ -27,8 +24,8 @@ class _ProfileScreenPageState extends State<ProfileScreen> {
   String nik = "";
 
   getProfile(request) async {
-    final response =
-        await request.get("http://127.0.0.1:8000/auth/data_login/");
+    final response = await request
+        .get("https://pusat-pengaduan.up.railway.app/auth/data_login/");
     if (response[0] == null) {
       return {"status": false};
     } else {
@@ -39,7 +36,8 @@ class _ProfileScreenPageState extends State<ProfileScreen> {
 
   postProfile(request) async {
     // ganti railway
-    final response = await request.post("http://127.0.0.1:8000/auth/profile/", {
+    final response = await request
+        .post("https://pusat-pengaduan.up.railway.app/auth/profile/", {
       'email': email,
       'nama': name,
       'nik': nik,
@@ -49,7 +47,6 @@ class _ProfileScreenPageState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     final request = context.watch<CookieRequest>();
 
     return Scaffold(
@@ -60,6 +57,10 @@ class _ProfileScreenPageState extends State<ProfileScreen> {
               color: kWhiteColor,
               fontWeight: FontWeight.bold,
             )),
+      ),
+      drawer: CustomDrawer(
+        title: 'Pusat Pengaduan',
+        menu: RouteController.getDrawerRoute(kProfile, request),
       ),
       body: FutureBuilder(
           future: getProfile(request),
@@ -199,7 +200,6 @@ class _ProfileScreenPageState extends State<ProfileScreen> {
                                   }
                                   if (_profileFormKey.currentState!
                                       .validate()) {
-                                    print("test");
                                     postProfile(request).then((result) {
                                       String msg = result['message'];
                                       if (result['status']) {
@@ -211,7 +211,7 @@ class _ProfileScreenPageState extends State<ProfileScreen> {
                                                 'Berhasil Ubah Data',
                                                 style: TextStyle(
                                                     color: Colors.green)),
-                                            content: Text("$msg"),
+                                            content: Text(msg),
                                             actions: <Widget>[
                                               TextButton(
                                                 onPressed: () => controller
@@ -229,7 +229,7 @@ class _ProfileScreenPageState extends State<ProfileScreen> {
                                             title: const Text('Gagal Ubah Data',
                                                 style: TextStyle(
                                                     color: Colors.red)),
-                                            content: Text("$msg"),
+                                            content: Text(msg),
                                             actions: <Widget>[
                                               TextButton(
                                                 onPressed: () =>
@@ -256,7 +256,6 @@ class _ProfileScreenPageState extends State<ProfileScreen> {
               }
             }
           }),
-
     );
   }
 }
