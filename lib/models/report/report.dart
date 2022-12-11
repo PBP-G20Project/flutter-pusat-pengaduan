@@ -12,30 +12,6 @@ String reportToJson(Report data) => json.encode(data.toJson());
 
 class Report {
   Report({
-    this.model = "submission_form.report",
-    required this.pk,
-    required this.fields,
-  });
-
-  String model;
-  int pk;
-  Fields fields;
-
-  factory Report.fromJson(Map<String, dynamic> json) => Report(
-        model: json["model"],
-        pk: json["pk"],
-        fields: Fields.fromJson(json["fields"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "model": model,
-        "pk": pk,
-        "fields": fields.toJson(),
-      };
-}
-
-class Fields {
-  Fields({
     required this.userSubmission,
     required this.adminSubmission,
     required this.title,
@@ -59,7 +35,7 @@ class Fields {
   String location;
   String status;
 
-  factory Fields.fromJson(Map<String, dynamic> json) => Fields(
+  factory Report.fromJson(Map<String, dynamic> json) => Report(
         userSubmission: json["user_submission"],
         adminSubmission: json["admin_submission"],
         title: json["title"],
