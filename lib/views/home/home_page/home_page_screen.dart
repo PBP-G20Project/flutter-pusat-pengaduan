@@ -4,23 +4,18 @@ import 'package:pusat_pengaduan/common/constant.dart';
 import 'package:pusat_pengaduan/views/home/home_page/controller/home_page_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
+//
+import 'package:pusat_pengaduan/views/logout/logout_user.dart';
 
 class HomePageScreen extends StatelessWidget {
   const HomePageScreen({super.key});
-
-  get_data(request) async {
-    final response =
-        await request.get("http://127.0.0.1:8000/auth/data_login/");
-    print(response);
-    return response;
-  }
 
   @override
   Widget build(BuildContext context) {
     // get controller
     final controller = Get.find<HomePageController>();
     final request = context.watch<CookieRequest>();
-    get_data(request);
+    // test_logout(request);
 
     return Scaffold(
       appBar: AppBar(
@@ -55,6 +50,21 @@ class HomePageScreen extends StatelessWidget {
                 onPressed: () => controller
                     .navigateToProfile(), // contoh penggunaan navigator pushNamed dengan getx
                 child: const Text('Profile')),
+            TextButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.blue),
+              ),
+              onPressed: () async {
+                logout_acc(request).then((result) {
+                  print(request.loggedIn);
+                  print("logout");
+                });
+              },
+              child: const Text(
+                "Simpan",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
           ],
         ),
       ),

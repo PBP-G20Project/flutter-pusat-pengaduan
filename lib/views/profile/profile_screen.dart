@@ -45,13 +45,6 @@ class _ProfileScreenPageState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
-    late final profile_data;
-
-    // @override
-    // void initState() {
-    //   super.initState();
-    //   profile_data = getProfile(request);
-    // }
 
     return Scaffold(
       appBar: AppBar(
@@ -72,9 +65,6 @@ class _ProfileScreenPageState extends State<ProfileScreen> {
                 // TODO fix gatau gimana caranya mungkin bikin dialog ?
                 return controller.navigateToLogin();
               } else {
-                // email = snapshot.data['user'].fields.email;
-                // name = snapshot.data['user'].fields.nama;
-                // nik = snapshot.data['user'].fields.nik;
                 return Form(
                   key: _profileFormKey,
                   child: Container(
