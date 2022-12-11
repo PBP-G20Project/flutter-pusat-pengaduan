@@ -95,7 +95,7 @@ class CustomDropdownField extends StatelessWidget {
                 horizontal: kDefaultPadding, vertical: 14),
             errorText: error != null && error!.isNotEmpty ? error : null,
             hintText: hint,
-            fillColor: background,
+            fillColor: Colors.transparent,
             filled: true,
             suffixIcon: suffixIcon,
             focusedErrorBorder: OutlineInputBorder(

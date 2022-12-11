@@ -101,7 +101,7 @@ class CustomTextField extends StatelessWidget {
             contentPadding: const EdgeInsets.all(kDefaultPadding),
             errorText: error != null && error!.isNotEmpty ? error : null,
             hintText: hint,
-            fillColor: background,
+            fillColor: Colors.transparent,
             filled: true,
             suffixIcon: suffixIcon,
             focusedErrorBorder: OutlineInputBorder(
