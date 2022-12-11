@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:pusat_pengaduan/common/constant.dart';
 import 'package:pusat_pengaduan/models/report/report.dart';
+import 'package:pusat_pengaduan/utils/route.dart';
+import 'package:pusat_pengaduan/views/profile/model/profile_model.dart';
 
 class SubmissionFormController extends GetxController {
   @override
@@ -34,8 +38,7 @@ class SubmissionFormController extends GetxController {
   final scrollController = ScrollController();
   var isAgree = false.obs;
   var dateTime = DateTime.now();
-  late Report report;
-  late Fields fields;
+  late Report fields;
 
   String? validateTextField(String? value) {
     if (value == null || value.isEmpty) {
@@ -52,9 +55,9 @@ class SubmissionFormController extends GetxController {
     );
   }
 
-  validateForm() {
+  validateForm(request) async {
     if (formKey.currentState!.validate() && isAgree.value) {
-      getDataForm();
+      await getDataForm(request);
       return true;
     } else if (!isAgree.value && !formKey.currentState!.validate()) {
       Get.snackbar("Error", "Harap isi semua field dan setujui persyaratan",
@@ -94,7 +97,7 @@ class SubmissionFormController extends GetxController {
     return false;
   }
 
-  successSnackbar() {
+  successSubmit() {
     Get.snackbar("Succes", "Laporan berhasil dikirim",
         duration: const Duration(seconds: 2),
         snackPosition: SnackPosition.TOP,
@@ -105,10 +108,12 @@ class SubmissionFormController extends GetxController {
           Icons.check_circle_outline,
           color: kWhiteColor,
         ));
+    Get.offNamed(dashboardUserRoute);
   }
 
   errorSnackbar() {
-    Get.snackbar("Error", "Terjadi error saat mengirim laporan, coba lagi nanti",
+    Get.snackbar(
+        "Error", "Terjadi error saat mengirim laporan, coba lagi nanti",
         duration: const Duration(seconds: 2),
         snackPosition: SnackPosition.TOP,
         margin: const EdgeInsets.all(kDefaultPadding / 2),
@@ -120,23 +125,9 @@ class SubmissionFormController extends GetxController {
         ));
   }
 
-  clearForm() {
-    formKey.currentState!.reset();
-    titleController.value.clear();
-    contentController.value.clear();
-    instansiController.value.clear();
-    tipeController.value.clear();
-    pihakController.value.clear();
-    lokasiController.value.clear();
-    dateController.value.clear();
-    isAgree.value = false;
-  }
-
-  getDataForm() {
-    // TODO: Implement post report
-    var userSubmission = 3;
-    var adminSubmission = 0;
-    var pk = 0;
+  getDataForm(request) async {
+    var userSubmission = await getUserId(request);
+    var adminSubmission = 0; // abaikan
     var title = titleController.value.text;
     var content = contentController.value.text;
     var institution = instansiController.value.text;
@@ -144,7 +135,7 @@ class SubmissionFormController extends GetxController {
     var involvedParty = pihakController.value.text;
     var location = lokasiController.value.text;
 
-    fields = Fields(
+    fields = Report(
         userSubmission: userSubmission,
         adminSubmission: adminSubmission,
         title: title,
@@ -155,8 +146,6 @@ class SubmissionFormController extends GetxController {
         date: dateTime,
         location: location,
         status: "PENDING");
-
-    report = Report(fields: fields, pk: pk);
   }
 
   chooseDate({required BuildContext context}) async {
@@ -171,5 +160,23 @@ class SubmissionFormController extends GetxController {
       dateTime = date;
     }
     return null;
+  }
+
+  reportPost(request, data) async {
+    final response = await request.post(
+        'http://127.0.0.1:8000/submission_form/add_report_flutter/',
+        jsonEncode(data));
+    return response;
+  }
+
+  getUserId(request) async {
+    final response =
+        await request.get("http://127.0.0.1:8000/auth/data_login/");
+    if (response[0] == null) {
+      return {"status": false};
+    } else {
+      User user = User.fromJson(response[0]);
+      return user.pk;
+    }
   }
 }

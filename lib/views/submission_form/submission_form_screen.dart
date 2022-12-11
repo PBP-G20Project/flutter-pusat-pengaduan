@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
@@ -19,13 +17,6 @@ class SubmissionFormScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<SubmissionFormController>();
     final request = context.watch<CookieRequest>();
-
-    reportPost(data) async {
-      final response = await request.post(
-          'http://127.0.0.1:8000/submission_form/add_report_flutter/',
-          jsonEncode(data));
-      return response;
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -102,6 +93,7 @@ class SubmissionFormScreen extends StatelessWidget {
                     controller: controller.dateController.value,
                     validator: controller.validateTextField,
                     icon: const Icon(Icons.calendar_today),
+                    readOnly: true,
                     onTap: () {
                       controller.chooseDate(context: context);
                     })),
@@ -126,13 +118,11 @@ class SubmissionFormScreen extends StatelessWidget {
         CustomFooterButton(
           label: 'Submit',
           onPressed: () async {
-            if (controller.validateForm()) {
+            if (await controller.validateForm(request)) {
               var data = controller.fields.toJson();
-              var response = await reportPost(data);
+              var response = await controller.reportPost(request, data);
               if (response["status"] == "success") {
-                controller.successSnackbar();
-                controller.clearForm();
-                Get.back();
+                controller.successSubmit();
               } else {
                 controller.errorSnackbar();
               }
