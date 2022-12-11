@@ -5,6 +5,7 @@ import 'package:pusat_pengaduan/controller/route_controller.dart';
 import 'package:pusat_pengaduan/views/home/home_page/controller/home_page_controller.dart';
 import 'package:pusat_pengaduan/views/widgets/custom_drawer.dart';
 
+
 class HomePageScreen extends StatelessWidget {
   const HomePageScreen({super.key});
 
@@ -12,6 +13,8 @@ class HomePageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // get controller
     final controller = Get.find<HomePageController>();
+    final request = context.watch<CookieRequest>();
+    // test_logout(request);
 
     return Scaffold(
       appBar: AppBar(
@@ -40,6 +43,31 @@ class HomePageScreen extends StatelessWidget {
                 onPressed: () => controller
                     .navigateToLogin(), // contoh penggunaan navigator pushNamed dengan getx
                 child: const Text('Login')),
+            const Text("test ke Register"),
+            ElevatedButton(
+                onPressed: () => controller
+                    .navigateToregister(), // contoh penggunaan navigator pushNamed dengan getx
+                child: const Text('Register')),
+            const Text("test ke Profile"),
+            ElevatedButton(
+                onPressed: () => controller
+                    .navigateToProfile(), // contoh penggunaan navigator pushNamed dengan getx
+                child: const Text('Profile')),
+            TextButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.blue),
+              ),
+              onPressed: () async {
+                logout_acc(request).then((result) {
+                  print(request.loggedIn);
+                  print("logout");
+                });
+              },
+              child: const Text(
+                "Simpan",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
           ],
         ),
       ),
