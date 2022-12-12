@@ -27,8 +27,8 @@
 
 
 ## Cerita di balik Pusat Pengaduan
-[![Pre-Release](https://github.com/PBP-G20Project/flutter-pusat-pengaduan/tree/readme/actions/workflows/pre-release.yml/badge.svg)](https://github.com/PBP-G20Project/flutter-pusat-pengaduan/tree/readmeactions/workflows/pre-release.yml)
-[![Release](https://github.com/PBP-G20Project/flutter-pusat-pengaduan/tree/readmeactions/workflows/release.yml/badge.svg)](https://github.com/PBP-G20Project/flutter-pusat-pengaduan/tree/readmeactions/workflows/release.yml)
+[![Pre-Release](https://github.com/PBP-G20Project/flutter-pusat-pengaduan/tree/readme/actions/workflows/pre-release.yml/badge.svg)](https://github.com/PBP-G20Project/flutter-pusat-pengaduan/tree/readme/actions/workflows/pre-release.yml)
+[![Release](https://github.com/PBP-G20Project/flutter-pusat-pengaduan/tree/readme/actions/workflows/release.yml/badge.svg)](https://github.com/PBP-G20Project/flutter-pusat-pengaduan/tree/readme/actions/workflows/release.yml)
 
 
 [G20 Topic: Anti-corruption](https://www.oecd.org/g20/topics/anti-corruption/)
