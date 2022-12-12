@@ -26,7 +26,7 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 31
 
     lintOptions {
         disable 'InvalidPackage'
@@ -34,8 +34,8 @@ android {
 
     defaultConfig {
         applicationId "com.company.example"
-        minSdkVersion 21
-        targetSdkVersion 28
+        minSdkVersion 31
+        targetSdkVersion 31
         versionCode System.getenv('APPCENTER_BUILD_ID').toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
