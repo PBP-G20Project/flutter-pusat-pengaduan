@@ -55,7 +55,7 @@ class _DashboardUserScreen extends State<DashboardUserScreen> {
                 width: 140,
                 child: ElevatedButton.icon(
                     style: elevatedStyle,
-                    onPressed: () => controller.navigateToDraft(),
+                    onPressed: () => controller.navigateToDraftForm(),
                     icon: const Icon(Icons.add_circle_outline_rounded,
                         color: kBlackColor),
                     label: Text('Buat Draft',
@@ -67,24 +67,20 @@ class _DashboardUserScreen extends State<DashboardUserScreen> {
               const SizedBox(
                 width: 10,
               ),
-              CustomDropdownButton2(
-                hint: 'Semua Laporan',
-                dropdownItems: items,
-                value: selectedValue,
-                buttonWidth: 155,
-                dropdownWidth: 150,
-                dropdownDecoration: BoxDecoration(
-                    color: kWhiteColor,
-                    borderRadius: BorderRadius.circular(14)),
-                buttonDecoration: BoxDecoration(
-                    color: kWhiteColor,
-                    borderRadius: BorderRadius.circular(14)),
-                onChanged: (value) {
-                  setState(() {
-                    selectedValue = value;
-                  });
-                },
-              )
+              SizedBox(
+                height: 40,
+                width: 140,
+                child: ElevatedButton.icon(
+                    style: elevatedStyle,
+                    onPressed: () => controller.navigateToDraft(),
+                    icon: const Icon(Icons.find_in_page_rounded,
+                        color: kBlackColor),
+                    label: Text('Lihat Draft',
+                        style: kRubik.copyWith(
+                          fontSize: 14,
+                          color: kBlackColor,
+                        ))),
+              ),
             ],
           ),
           const SizedBox(

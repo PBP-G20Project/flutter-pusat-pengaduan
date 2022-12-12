@@ -7,8 +7,8 @@ import 'package:pusat_pengaduan/views/dashboard/dashboard_user/dashboard_user_bi
 import 'package:pusat_pengaduan/views/dashboard/dashboard_user/dashboard_user_screen.dart';
 import 'package:pusat_pengaduan/views/dashboard/draft_form/draft_form_binding.dart';
 import 'package:pusat_pengaduan/views/dashboard/draft_form/draft_form_screen.dart';
-import 'package:pusat_pengaduan/views/dashboard/draft_page/draft_page_binding.dart';
 import 'package:pusat_pengaduan/views/dashboard/draft_page/draft_page_screen.dart';
+import 'package:pusat_pengaduan/views/dashboard/draft_page/draft_page_binding.dart';
 import 'package:pusat_pengaduan/views/home/berita_detail/berita_detail_binding.dart';
 import 'package:pusat_pengaduan/views/home/berita_detail/berita_detail_screen.dart';
 import 'package:pusat_pengaduan/views/home/berita_detail_dua/berita_detail_dua_screen.dart';
@@ -115,7 +115,7 @@ var route = [
   ),
   GetPage(
       name: draftPageRoute,
-      page: () => const DraftPageScreen(),
+      page: () => const DraftScreen(),
       binding: DraftPageBinding()),
   GetPage(
     name: dashboardAdminRoute,

@@ -17,6 +17,10 @@ class DashboardUserController extends GetxController {
   }
 
   navigateToDraft() {
+    Get.toNamed(draftPageRoute);
+  }
+
+  navigateToDraftForm() {
     Get.toNamed(draftFormRoute);
   }
 
