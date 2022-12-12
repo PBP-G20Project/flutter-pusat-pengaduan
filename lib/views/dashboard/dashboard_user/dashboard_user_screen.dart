@@ -11,7 +11,6 @@ import 'package:pusat_pengaduan/views/widgets/custom_drawer.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 
-
 const List<String> items = <String>['Semua Laporan', 'Draft'];
 String? selectedValue;
 
@@ -26,6 +25,7 @@ class _DashboardUserScreen extends State<DashboardUserScreen> {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<DashboardUserController>();
+    final request = context.watch<CookieRequest>();
     final ButtonStyle elevatedStyle = ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         backgroundColor: kWhiteColor);
@@ -45,6 +45,10 @@ class _DashboardUserScreen extends State<DashboardUserScreen> {
               onPressed: () => controller.navigateToProfile(),
             )
           ],
+        ),
+        drawer: CustomDrawer(
+          title: 'Dashboard User',
+          menu: RouteController.getDrawerRoute(kDashboardUser, request),
         ),
         body: Column(children: [
           Row(

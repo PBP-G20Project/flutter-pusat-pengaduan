@@ -7,6 +7,7 @@ import 'package:pusat_pengaduan/common/constant.dart';
 import 'package:pusat_pengaduan/views/dashboard/draft_form/controller/draft_form_controller.dart';
 import 'package:pusat_pengaduan/views/dashboard/draft_form/widgets/custom_footer_button.dart';
 import 'package:pusat_pengaduan/views/dashboard/draft_form/widgets/custom_textfield.dart';
+import 'package:pusat_pengaduan/views/widgets/custom_drawer.dart';
 
 class DraftFormScreen extends StatefulWidget {
   const DraftFormScreen({super.key});
@@ -77,7 +78,6 @@ class _DraftFormState extends State<DraftFormScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                
                 child: TextFormField(
                   decoration: const InputDecoration(
                     focusedBorder: OutlineInputBorder(
@@ -106,20 +106,19 @@ class _DraftFormState extends State<DraftFormScreen> {
               TextButton(
                   onPressed: () async {
                     draftPost(request).then((result) {
-                        showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                                  title: const Text('Berhasil menambahkan draft',
-                                      style: TextStyle(color: Colors.green)),
-                                  content: const Text("Draft Berhasil Disimpan"),
-                                  actions: <Widget>[
-                                    TextButton(
-                                        onPressed: () =>
-                                            controller.navigateToHomePage(),
-                                        child: const Text("OK")),
-                                  ],
-                                ));
-                
+                      showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                                title: const Text('Berhasil menambahkan draft',
+                                    style: TextStyle(color: Colors.green)),
+                                content: const Text("Draft Berhasil Disimpan"),
+                                actions: <Widget>[
+                                  TextButton(
+                                      onPressed: () =>
+                                          controller.navigateToHomePage(),
+                                      child: const Text("OK")),
+                                ],
+                              ));
                     });
                   },
                   child: const Text(
