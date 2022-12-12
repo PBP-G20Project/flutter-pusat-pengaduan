@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:pusat_pengaduan/views/dashboard/catatan_admin/catatan_admin_binding.dart';
 import 'package:pusat_pengaduan/views/dashboard/catatan_admin/catatan_admin_screen.dart';
 import 'package:pusat_pengaduan/views/dashboard/dashboard_admin/dashboard_admin_binding.dart';
-import 'package:pusat_pengaduan/views/dashboard/dashboard_admin/dashboard_admin_screen.dart';
 import 'package:pusat_pengaduan/views/dashboard/dashboard_admin/dashboard_admin_screenV2.dart';
 import 'package:pusat_pengaduan/views/dashboard/dashboard_user/dashboard_user_binding.dart';
 import 'package:pusat_pengaduan/views/dashboard/dashboard_user/dashboard_user_screen.dart';

@@ -11,7 +11,7 @@ class RouteController {
     kDashboardUser: () => Get.offNamed(dashboardUserRoute),
     kSubmission: () => Get.offNamed(submissionRoute),
     kProfile: () => Get.offNamed(profileRoute),
-    kReview: () => Get.offNamed(reviewRoute), // TODO: implement logout
+    kReview: () => Get.offNamed(reviewRoute),
     kLogout: () => Get.offNamed(loginRoute),
   };
 
@@ -20,7 +20,7 @@ class RouteController {
     kDashboardAdmin: () => Get.offNamed(dashboardAdminRoute),
     kSubmission: () => Get.offNamed(submissionRoute),
     kProfile: () => Get.offNamed(profileRoute),
-    kLogout: () => Get.offNamed(loginRoute), // TODO: implement logout
+    kLogout: () => Get.offNamed(loginRoute),
   };
 
   static Map<String, void Function()?> guestDrawerRoute = {
