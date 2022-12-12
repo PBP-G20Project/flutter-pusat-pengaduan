@@ -1,5 +1,7 @@
 # Pusat Pengaduan
 
+[![Flutter CI](https://github.com/PBP-G20Project/flutter-pusat-pengaduan/actions/workflows/flutter-workflow.yml/badge.svg)](https://github.com/PBP-G20Project/flutter-pusat-pengaduan/actions/workflows/flutter-workflow.yml)
+
 ## Nama Anggota Kelompok
 
 <table>
@@ -27,8 +29,6 @@
 
 
 ## Cerita di balik Pusat Pengaduan
-[![Pre-Release](https://github.com/PBP-G20Project/flutter-pusat-pengaduan/actions/workflows/pre-release.yml/badge.svg)](https://github.com/PBP-G20Project/flutter-pusat-pengaduan/actions/workflows/pre-release.yml)
-[![Release](https://github.com/PBP-G20Project/flutter-pusat-pengaduan/actions/workflows/release.yml/badge.svg)](https://github.com/PBP-G20Project/flutter-pusat-pengaduan/actions/workflows/release.yml)
 
 
 [G20 Topic: Anti-corruption](https://www.oecd.org/g20/topics/anti-corruption/)
