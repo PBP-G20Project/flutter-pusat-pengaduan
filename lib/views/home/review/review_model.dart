@@ -33,23 +33,23 @@ class Review {
 class Fields {
   Fields({
     required this.user,
-    required this.rating,
+    this.rating,
     required this.comment,
   });
 
   int user;
-  int rating;
+  int? rating;
   String comment;
 
   factory Fields.fromJson(Map<String, dynamic> json) => Fields(
         user: json["user"],
-        rating: json["rating"] == null ? 0 : json["rating"],
+        rating: json["rating"],
         comment: json["comment"],
       );
 
   Map<String, dynamic> toJson() => {
         "user": user,
-        "rating": rating == null ? 0 : rating,
+        "rating": rating,
         "comment": comment,
       };
 }
