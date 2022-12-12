@@ -11,7 +11,8 @@ class RouteController {
     kDashboardUser: () => Get.offNamed(dashboardUserRoute),
     kSubmission: () => Get.offNamed(submissionRoute),
     kProfile: () => Get.offNamed(profileRoute),
-    kLogout: () => Get.offNamed(loginRoute), // TODO: implement logout
+    kReview: () => Get.offNamed(reviewRoute), // TODO: implement logout
+    kLogout: () => Get.offNamed(loginRoute),
   };
 
   static Map<String, void Function()?> adminDrawerRoute = {
@@ -33,7 +34,6 @@ class RouteController {
   }
 
   static isUser(request) {
-    // TODO: implement isUser/isAdmin
     return is_user;
   }
 
