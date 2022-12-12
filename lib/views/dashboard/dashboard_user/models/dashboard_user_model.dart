@@ -34,20 +34,20 @@ class LaporanUser {
 
 class Fields {
     Fields({
-        required this.userSubmission,
-        required this.adminSubmission,
-        required this.title,
-        required this.content,
-        required this.institution,
-        required this.institutionLevel,
-        required this.involvedParty,
-        required this.date,
-        required this.location,
-        required this.status,
+      required this.userSubmission,
+      required this.adminSubmission,
+      required this.title,
+      required this.content,
+      required this.institution,
+      required this.institutionLevel,
+      required this.involvedParty,
+      required this.date,
+      required this.location,
+      required this.status,
     });
 
     int userSubmission;
-    int adminSubmission;
+    dynamic adminSubmission;
     String title;
     String content;
     String institution;

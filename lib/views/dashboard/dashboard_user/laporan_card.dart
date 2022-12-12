@@ -1,134 +1,95 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
+
 import 'package:pbp_django_auth/pbp_django_auth.dart';
-
-import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:get/get.dart';
+import 'package:pusat_pengaduan/common/constant.dart';
+import 'package:pusat_pengaduan/views/dashboard/dashboard_user/controller/dashboard_user_controller.dart';
 import 'package:pusat_pengaduan/views/dashboard/dashboard_user/models/dashboard_user_model.dart';
-import 'dart:convert';
-import 'package:intl/intl.dart';
-import 'package:pusat_pengaduan/views/dashboard/dashboard_user/function/fetch_laporan.dart';
 
-class LaporanCard extends StatefulWidget {
-  const LaporanCard({super.key});
+import 'package:pusat_pengaduan/common/constant.dart';
+
+class CardScreen extends StatefulWidget {
+  const CardScreen({super.key});
 
   @override
-  LaporanCardState createState() => LaporanCardState();
+  State<CardScreen> createState() => _CardScreenPageState();
 }
 
-class LaporanCardState extends State<LaporanCard> {
-  void refreshWidget() {
-    setState(() {});
+class _CardScreenPageState extends State<CardScreen> {
+  final controller = Get.find<DashboardUserController>();
+
+  getLaporan(request) async {
+    List<LaporanUser> listLaporan = [];
+    final response =
+        await request.get("http://localhost:8000/dashboard_user/Laporan/");
+    for (var d in response) {
+      if (d != null) {
+        listLaporan.add(LaporanUser.fromJson(d));
+      }
+    }
+    return listLaporan;
   }
 
   @override
   Widget build(BuildContext context) {
-    final request = context.read<CookieRequest>();
-    Future fut = fetchLaporan();
-    return (FutureBuilder(
-      future: fut,
+    final request = context.watch<CookieRequest>();
+    return FutureBuilder(
+      future: getLaporan(request),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.data == null) {
-          return const Center(
-              child: CircularProgressIndicator(
-            color: Colors.red,
-          ));
+          return const Center(child: CircularProgressIndicator());
         } else {
-          if (!snapshot.hasData) {
-            return Column(
-              children: const [
-                Text(
-                  "Tidak ada Laporan tersedia :(",
-                  style: TextStyle(color: Color(0xff59A5D8), fontSize: 20),
-                ),
-                SizedBox(height: 8),
-              ],
-            );
-          } else {
-            return ListView.builder(
-              primary: false,
-              shrinkWrap: true,
-              itemCount: snapshot.data!.length,
-              itemBuilder: (data, index) => Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Material(
-                      elevation: 2.0,
-                      borderRadius: BorderRadius.circular(5.0),
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: SizedBox(
-                          height: 180,
-                          child: Container(
-                            padding: const EdgeInsets.all(15),
-                            child: Column(
-                              children: [
-                                const Spacer(),
-                                Row(
-                                  children: [
-                                    const Text("Judul: "),
-                                    Text(
-                                      snapshot
-                                          .data![
-                                              snapshot.data!.length - index - 1]
-                                          .fields
-                                          .height
-                                          .toString(),
-                                    ),
-                                  ],
-                                ),
-                                const Spacer(),
-                                Row(
-                                  children: [
-                                    const Text("Berat Badan: "),
-                                    Text(
-                                      snapshot
-                                          .data![
-                                              snapshot.data!.length - index - 1]
-                                          .fields
-                                          .weight
-                                          .toString(),
-                                    ),
-                                  ],
-                                ),
-                                const Spacer(),
-                                Row(
-                                  children: [
-                                    const Text("Dibuat pada: "),
-                                    Text(
-                                      snapshot
-                                          .data![
-                                              snapshot.data!.length - index - 1]
-                                          .fields
-                                          .date
-                                          .toString(),
-                                      // snapshot.data![snapshot.data!.length - index - 1].fields.date.toString(),
-                                    ),
-                                  ],
-                                ),
-                                const Spacer(),
-                                Row(
-                                  children: [
-                                    const Text("Author: "),
-                                    Text(
-                                      snapshot
-                                          .data![
-                                              snapshot.data!.length - index - 1]
-                                          .fields
-                                          .author,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ))),
-            );
+          for (var data in snapshot.data) {
+            print(data.fields.title);
           }
+        return Card(
+        color: kWhiteColor,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20)),
+            child: SizedBox(height: 200,child:Container(
+              padding: EdgeInsets.all(15),
+              child:Column(
+                children: [
+                  Row(
+                    children:[
+                  Text("Judul: ${snapshot.data[snapshot.data.length-1].fields.title}")
+                ]),
+              const Spacer(),
+              Row(
+                    children:[
+                  Text("Instansi yang terkait: ${snapshot.data[snapshot.data.length-1].fields.institution}")
+                ]),
+                Row(
+                    children:[
+                  Text("Tingkat instansi: ${snapshot.data[snapshot.data.length-1].fields.institutionLevel}")
+                ]),
+                Row(
+                    children:[
+                  Text("Pihak yang terlibat: ${snapshot.data[snapshot.data.length-1].fields.involvedParty}")
+                ]),
+                Row(
+                    children:[
+                  Text("Lokasi: ${snapshot.data[snapshot.data.length-1].fields.location}")
+                ]),
+                Row(
+                    children:[
+                  Text("Tanggal: ${snapshot.data[snapshot.data.length-1].fields.date}")
+                ]),
+                const Spacer(),
+                Row(
+                    children:[
+                  Text(snapshot.data[snapshot.data.length-1].fields.content.substring(3,snapshot.data[snapshot.data.length-1].fields.content.length -4))
+                ])
+                ]),
+              )
+              )
+      );
+          return Text("1");
         }
       },
-    ));
+    );
   }
 }

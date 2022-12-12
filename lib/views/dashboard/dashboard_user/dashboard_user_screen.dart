@@ -46,11 +46,12 @@ class _DashboardUserScreen extends State<DashboardUserScreen> {
             )
           ],
         ),
-        body: Padding(
+        body:ListView( 
             padding: const EdgeInsets.all(25),
-            child: Column(children: [
-              Container(
-                  child: Row(
+            children: [
+             Column(children: [
+
+                Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
@@ -89,10 +90,15 @@ class _DashboardUserScreen extends State<DashboardUserScreen> {
                     },
                   )
                 ],
-              ))
-            ,LaporanCard(),
+              ),
+            const SizedBox(
+                    height: 20,
+                  ),
+            // ElevatedButton(onPressed: null, child: null ),
+            CardScreen(),
+
             ])
-            ),
+            ]),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: Padding(
             padding: const EdgeInsets.all(24.0),

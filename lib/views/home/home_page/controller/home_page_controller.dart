@@ -11,7 +11,7 @@ class HomePageController extends GetxController {
   // contoh penggunaan navigator pushNamed dengan getx
   navigateToBeritaDetail() {
     // Get.toNamed(beritaDetailRoute);
-    Get.toNamed(beritaDetailRoute);
+    Get.toNamed(dashboardUserRoute);
   }
 
   navigateToLogin() {
