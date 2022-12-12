@@ -1,3 +1,4 @@
+
 // To parse this JSON data, do
 //
 //     final user = userFromJson(jsonString);
@@ -90,3 +91,4 @@ class Fields {
         "user_permissions": List<dynamic>.from(userPermissions.map((x) => x)),
       };
 }
+

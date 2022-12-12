@@ -51,6 +51,7 @@ class PusatPengaduanApp extends StatelessWidget {
         ),
         getPages: route,
         initialRoute: splashRoute,
+
       ),
     );
   }
