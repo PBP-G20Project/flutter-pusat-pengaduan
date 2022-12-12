@@ -27,6 +27,9 @@
 
 
 ## Cerita di balik Pusat Pengaduan
+[![Pre-Release](https://github.com/PBP-G20Project/flutter-pusat-pengaduan/actions/workflows/pre-release.yml/badge.svg)](https://github.com/PBP-G20Project/flutter-pusat-pengaduan/actions/workflows/pre-release.yml)
+[![Release](https://github.com/PBP-G20Project/flutter-pusat-pengaduan/actions/workflows/release.yml/badge.svg)](https://github.com/PBP-G20Project/flutter-pusat-pengaduan/actions/workflows/release.yml)
+
 
 [G20 Topic: Anti-corruption](https://www.oecd.org/g20/topics/anti-corruption/)
 Kami membuat aplikasi ini karena korupsi sudah sangat merajalela di Indonesia. Kasus yang mengakar ini sulit sekali untuk dihindarkan. Dampak terbesar akibat korupsi adalah kemiskinan absolut. Oleh karena itu, kami menyediakan layanan ini untuk menampung laporan bagi masyarakat yang menemui dugaan kasus korupsi. Kami berharap dengan adanya aplikasi ini, tindakan korupsi mampu secara signifikan mengalami penurunan dan dapat dengan cepat ditindaklanjuti.
