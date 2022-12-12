@@ -28,6 +28,7 @@
 
 ## Cerita di balik Pusat Pengaduan
 [![Pre-Release](https://github.com/sabynn/temenin-isoman-mobileapp/actions/workflows/pre-release.yml/badge.svg)](https://github.com/sabynn/temenin-isoman-mobileapp/actions/workflows/pre-release.yml)
+[![Release](https://github.com/sabynn/temenin-isoman-mobileapp/actions/workflows/release.yml/badge.svg)](https://github.com/sabynn/temenin-isoman-mobileapp/actions/workflows/release.yml)
 
 
 [G20 Topic: Anti-corruption](https://www.oecd.org/g20/topics/anti-corruption/)
