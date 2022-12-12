@@ -14,7 +14,6 @@ class HomePageScreen extends StatelessWidget {
   const HomePageScreen({super.key});
 
   getName(request, id) async {
-    print(id);
     final responseName = await request
         .post("https://pusat-pengaduan.up.railway.app/json_name/", {
       "id": id,
@@ -182,9 +181,9 @@ class HomePageScreen extends StatelessWidget {
                   );
                 } else {
                   return SingleChildScrollView(
-                      physics: ScrollPhysics(),
+                      physics: const ScrollPhysics(),
                       child: ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: snapshot.data!['listReview'].length,
                         itemBuilder: (_, index) => Container(
