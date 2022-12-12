@@ -36,16 +36,16 @@ android {
         applicationId "com.company.example"
         minSdkVersion 31
         targetSdkVersion 31
-        versionCode System.getenv('APPCENTER_BUILD_ID').toInteger()
+        versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
         release {
             storeFile rootProject.file("app/android.keystore")
-            storePassword System.getenv("APPCENTER_KEYSTORE_PASSWORD")
-            keyAlias System.getenv("APPCENTER_KEY_ALIAS")
-            keyPassword System.getenv("APPCENTER_KEY_PASSWORD")
+            storePassword System.getenv("@PBPd07.2022")
+            keyAlias System.getenv("pusat_pengaduan")
+            keyPassword System.getenv("@PBPd07.2022")
         }
     }
     buildTypes {
