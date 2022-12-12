@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
@@ -15,21 +13,29 @@ import 'package:pusat_pengaduan/views/widgets/custom_drawer.dart';
 class HomePageScreen extends StatelessWidget {
   const HomePageScreen({super.key});
 
+  getName(request, id) async {
+    final responseName =
+        await request.post("http://127.0.0.1:8000/json_name/", {
+      "id": id,
+    });
+    return responseName;
+  }
+
   getReview(request) async {
-    final response = await request
-        .get("https://pusat-pengaduan.up.railway.app/json_review/");
-    // print(response);
+    final response = await request.get("http://127.0.0.1:8000/json_review/");
     List<Review> listReview = [];
+    List<String> nama = [];
     for (var i in response) {
       if (i != null) {
+        int id = i['fields']['user'];
         listReview.add(Review.fromJson(i));
+        final responseName = await getName(request, id.toString());
+        nama.add(responseName[0]['fields']['nama']);
       }
     }
-    // print(response[0]);
-    // Review re = Review.fromJson(response[0]);
-    // print(re);
+    // print(Review.fromJson(response[0]));
     // print(listReview);
-    return listReview;
+    return {'listReview': listReview, 'nama': nama};
   }
 
   @override
@@ -174,7 +180,7 @@ class HomePageScreen extends StatelessWidget {
                 } else {
                   return ListView.builder(
                     shrinkWrap: true,
-                    itemCount: snapshot.data!.length,
+                    itemCount: snapshot.data!['listReview'].length,
                     itemBuilder: (_, index) => Container(
                       margin: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 12),
@@ -190,21 +196,97 @@ class HomePageScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "${snapshot.data![index].fields.user}",
+                            "${snapshot.data!['nama'][index]}",
                             style: const TextStyle(fontSize: 15),
                           ),
+                          if (snapshot
+                                  .data!['listReview'][index].fields.rating !=
+                              null) ...[
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(children: [
+                              // 1
+                              if (snapshot.data!['listReview'][index].fields
+                                      .rating >=
+                                  1) ...[
+                                const Icon(
+                                  Icons.star,
+                                  color: Colors.orange,
+                                )
+                              ] else ...[
+                                const Icon(
+                                  Icons.star,
+                                )
+                              ],
+
+                              // 2
+                              if (snapshot.data!['listReview'][index].fields
+                                      .rating >=
+                                  2) ...[
+                                const Icon(
+                                  Icons.star,
+                                  color: Colors.orange,
+                                )
+                              ] else ...[
+                                const Icon(
+                                  Icons.star,
+                                )
+                              ],
+
+                              // 3
+                              if (snapshot.data!['listReview'][index].fields
+                                      .rating >=
+                                  3) ...[
+                                const Icon(
+                                  Icons.star,
+                                  color: Colors.orange,
+                                )
+                              ] else ...[
+                                const Icon(
+                                  Icons.star,
+                                )
+                              ],
+
+                              // 4
+                              if (snapshot.data!['listReview'][index].fields
+                                      .rating >=
+                                  4) ...[
+                                const Icon(
+                                  Icons.star,
+                                  color: Colors.orange,
+                                )
+                              ] else ...[
+                                const Icon(
+                                  Icons.star,
+                                )
+                              ],
+
+                              // 5
+                              if (snapshot.data!['listReview'][index].fields
+                                      .rating >=
+                                  5) ...[
+                                const Icon(
+                                  Icons.star,
+                                  color: Colors.orange,
+                                )
+                              ] else ...[
+                                const Icon(
+                                  Icons.star,
+                                )
+                              ],
+                            ])
+                          ],
                           const SizedBox(
                             height: 10,
                           ),
-                          Text("${snapshot.data![index].fields.comment}",
+                          Text(
+                              "${snapshot.data!['listReview'][index].fields.comment}",
                               style: const TextStyle(fontSize: 15))
                         ],
                       ),
                     ),
                   );
-
-                  // print(snapshot.data[0].fields.user);
-                  // return Text("ini data");
                 }
               }
             },

@@ -25,7 +25,8 @@ class _DashboardAdmin extends State<DashboardAdminScreen> {
   List reportItem = [];
 
   Future getAllStatus() async {
-    var url = Uri.parse("http://127.0.0.1:8000/dashboard_admin/show_all_report/");
+    var url =
+        Uri.parse("http://127.0.0.1:8000/dashboard_admin/show_all_report/");
     var response = await http.get(url);
     if (response.statusCode == 200) {
       var jsonData = json.decode(response.body);
@@ -33,11 +34,11 @@ class _DashboardAdmin extends State<DashboardAdminScreen> {
         reportItem = jsonData;
       });
     }
-    print(reportItem);
   }
 
   Future getAllPending() async {
-    var url = Uri.parse("http://127.0.0.1:8000/dashboard_admin/show_all_pending/");
+    var url =
+        Uri.parse("http://127.0.0.1:8000/dashboard_admin/show_all_pending/");
     var response = await http.get(url);
     if (response.statusCode == 200) {
       var jsonData = json.decode(response.body);
@@ -45,11 +46,7 @@ class _DashboardAdmin extends State<DashboardAdminScreen> {
         reportItem = jsonData;
       });
     }
-    print(reportItem);
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -66,25 +63,18 @@ class _DashboardAdmin extends State<DashboardAdminScreen> {
       body: ListView(controller: controller.scrollController, children: [
         Container(
           margin: const EdgeInsets.all(kDefaultPadding),
-          child: Column(
-            children: [
-              CustomDropdownField(
-              label: "Pengecekan Status",
-              hint: "Semua",
-              items: const [
-                "Semua",
-                "Pending",
-                "Diproses",
-                "Selesai"
-              ],
-              onChanged: (value) => setState (() {
-                controller.statusController.value.text = value!;
-                })
-              ),
-              Text(controller.statusController.value.text)
-              // FutureBuilder(
-              // )
-            ]),
+          child: Column(children: [
+            CustomDropdownField(
+                label: "Pengecekan Status",
+                hint: "Semua",
+                items: const ["Semua", "Pending", "Diproses", "Selesai"],
+                onChanged: (value) => setState(() {
+                      controller.statusController.value.text = value!;
+                    })),
+            Text(controller.statusController.value.text)
+            // FutureBuilder(
+            // )
+          ]),
         )
       ]),
     );
