@@ -43,9 +43,9 @@ android {
     signingConfigs {
         release {
             storeFile rootProject.file("app/android.keystore")
-            storePassword System.getenv("@PBPd07.2022")
-            keyAlias System.getenv("pusat_pengaduan")
-            keyPassword System.getenv("@PBPd07.2022")
+            storePassword "@PBPd07.2022"
+            keyAlias "pusat_pengaduan"
+            keyPassword "@PBPd07.2022"
         }
     }
     buildTypes {
