@@ -4,6 +4,7 @@ import 'package:pusat_pengaduan/utils/route.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pusat_pengaduan/common/constant.dart';
+import 'package:pusat_pengaduan/models/profile/profile_model.dart';
 import 'package:pusat_pengaduan/views/dashboard/draft_form/models/draft_model.dart';
 
 class DraftFormController extends GetxController {
@@ -63,13 +64,12 @@ class DraftFormController extends GetxController {
     var user = await getUserId(request);
     var title = titleController.value.text;
     var description = contentController.value.text;
-    var date = dateController.value.text;
 
     fields = DraftUser(
         user: user,
         title: title,
         description: description,
-        date: date;
+        date: DateTime.now());
   }
 
   getUserId(request) async {
