@@ -19,10 +19,15 @@ class CatatanAdminScreen extends StatefulWidget {
 
 class _CatatanAdminScreenState extends State<CatatanAdminScreen> {
 
+  final _formKey = GlobalKey<FormState>();
+  String _title = "";
+  String _content = "";
+  String _status = "";
+
+
   Future<List<AdminReminder>> getAllStatus(request) async {
     final response = await request.get(
         "https://pusat-pengaduan.up.railway.app/dashboard_admin/get_reminder_json/");
-
     // json to AdminReminder
     List<AdminReminder> adminReminder = [];
     for (var d in response) {
@@ -33,23 +38,31 @@ class _CatatanAdminScreenState extends State<CatatanAdminScreen> {
     return adminReminder;
   }
 
-
+  reminderPost(request) async {
+    final response = await request.post(
+        'https://pusat-pengaduan.up.railway.app/dashboard_admin/create_reminder/',
+        {'title': _title, 'content': _content, 'status': _status});
+    return response;
+  }
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<CatatanAdminController>();
     final request = context.watch<CookieRequest>();
+
+
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Catatan Admin'),
       ),
-      body: ListView(
+      body: Column(
         children: [
           Container(
             margin: const EdgeInsets.all(kDefaultPadding),
             child: Form(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              key: controller.formKey,
+              // autovalidateMode: AutovalidateMode.onUserInteraction,
+              key: _formKey,
               child: Column(
                 children: [
                   CustomTextField(
@@ -57,6 +70,11 @@ class _CatatanAdminScreenState extends State<CatatanAdminScreen> {
                     hint: "Tuliskan judul laporan",
                     controller: controller.titleController.value,
                     validator: controller.validateTextField,
+                    onChanged: (String? value) {
+                      setState(() {
+                        _title = value!;
+                      });
+                    },
                   ),
                   const SizedBox(height: kDefaultPadding),
                   CustomTextField(
@@ -66,6 +84,11 @@ class _CatatanAdminScreenState extends State<CatatanAdminScreen> {
                     keyboardType: TextInputType.multiline,
                     controller: controller.contentController.value,
                     validator: controller.validateTextField,
+                    onChanged: (String? value) {
+                      setState(() {
+                        _content = value!;
+                      });
+                    },
                   ),
                   const SizedBox(height: kDefaultPadding),
                   CustomDropdownField(
@@ -77,7 +100,7 @@ class _CatatanAdminScreenState extends State<CatatanAdminScreen> {
                         "Negatif",
                       ],
                       onChanged: (value) {
-                        controller.newStatusController.value.text = value!;
+                        _status = value!;
                       }),
                   const SizedBox(height: kDefaultPadding),
                 ],
@@ -87,14 +110,21 @@ class _CatatanAdminScreenState extends State<CatatanAdminScreen> {
           CustomFooterButton(
             label: 'Submit',
             onPressed: () async {
-              if (await controller.validateForm(request)) {
-                var data = controller.fields.toJson();
-                var response = await controller.reportPost(request, data);
-                if (response["status"] == "success") {
+              // if (await controller.validateForm(request)) {
+              //   var data = controller.fields.toJson();
+              //   var response = await reminderPost(request);
+              //   if (response["status"] == "success") {
+              //     controller.successSubmit();
+              //   } else {
+              //     controller.errorSnackbar();
+              //   }
+              // }
+              if (_formKey.currentState!.validate()){
+                reminderPost(request).then((result){
                   controller.successSubmit();
-                } else {
-                  controller.errorSnackbar();
-                }
+                });
+              } else {
+                controller.errorSnackbar();
               }
             },
           ),

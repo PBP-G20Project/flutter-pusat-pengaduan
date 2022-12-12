@@ -21,7 +21,7 @@ Future<List<AdminReport>> getAllStatus(request) async {
 }
 
 Future<List<AdminReport>> getPending(request) async {
-  final response = await request.get("https://pusat-pengaduan.up.railway.app/dashboard_admin/show_all_report/");
+  final response = await request.get("https://pusat-pengaduan.up.railway.app/dashboard_admin/show_all_pending/");
 
   // decoding response into json
 

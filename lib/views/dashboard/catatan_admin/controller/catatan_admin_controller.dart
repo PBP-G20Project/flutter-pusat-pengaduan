@@ -14,7 +14,7 @@ class CatatanAdminController extends GetxController{
     super.onInit();
   }
 
-  final formKey = GlobalKey<FormState>();
+  final formKeyA = GlobalKey<FormState>();
   final scrollController = ScrollController();
   final titleController = TextEditingController().obs;
   final contentController = TextEditingController().obs;
@@ -91,12 +91,5 @@ class CatatanAdminController extends GetxController{
           Icons.error_outline_rounded,
           color: kWhiteColor,
         ));
-  }
-
-  reportPost(request, data) async {
-    final response = await request.post(
-        'https://pusat-pengaduan.up.railway.app/submission_form//',
-        jsonEncode(data));
-    return response;
   }
 }

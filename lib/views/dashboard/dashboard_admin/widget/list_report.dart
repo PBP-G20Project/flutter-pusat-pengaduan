@@ -76,7 +76,7 @@ class ListReport extends StatelessWidget {
           future: getPending(request),
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
-              return Text('hello');
+              return const Center(child: CircularProgressIndicator());
             } else {
               if (!snapshot.hasData) {
                 return Column(
@@ -130,7 +130,7 @@ class ListReport extends StatelessWidget {
           future: getDiproses(request),
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
-              return Text('hello');
+              return const Center(child: CircularProgressIndicator());
             } else {
               if (!snapshot.hasData) {
                 return Column(
@@ -184,7 +184,7 @@ class ListReport extends StatelessWidget {
           future: getSelesai(request),
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
-              return Text('hello');
+              return const Center(child: CircularProgressIndicator());
             } else {
               if (!snapshot.hasData) {
                 return Column(
@@ -238,7 +238,7 @@ class ListReport extends StatelessWidget {
           future: getDitolak(request),
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
-              return Text('hello');
+              return const Center(child: CircularProgressIndicator());
             } else {
               if (!snapshot.hasData) {
                 return Column(
