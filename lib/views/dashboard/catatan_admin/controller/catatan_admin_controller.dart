@@ -1,5 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pusat_pengaduan/common/constant.dart';
+
+import '../../../../utils/route.dart';
+import '../catatan_admin_data.dart';
 
 class CatatanAdminController extends GetxController{
   @override
@@ -8,10 +14,13 @@ class CatatanAdminController extends GetxController{
     super.onInit();
   }
 
-  final _formKey = GlobalKey<FormState>();
+  final formKeyA = GlobalKey<FormState>();
   final scrollController = ScrollController();
+  final titleController = TextEditingController().obs;
+  final contentController = TextEditingController().obs;
+  final newStatusController = TextEditingController().obs;
   final statusController = TextEditingController().obs;
-
+  late AdminReminder fields;
 
   scrollDown() {
     scrollController.animateTo(
@@ -21,5 +30,66 @@ class CatatanAdminController extends GetxController{
     );
   }
 
+  String? validateTextField(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Field tidak boleh kosong';
+    }
+    return null;
+  }
 
+  validateForm(request) async {
+    Get.snackbar("Error", "Harap isi semua field",
+        duration: const Duration(seconds: 2),
+        snackPosition: SnackPosition.TOP,
+        margin: const EdgeInsets.all(kDefaultPadding / 2),
+        backgroundColor: kErrorColor,
+        colorText: kWhiteColor,
+        icon: const Icon(
+          Icons.error_outline_rounded,
+          color: kWhiteColor,
+        ));
+
+    return false;
+  }
+
+  getDataForm(request) async {
+    var title = titleController.value.text;
+    var content = contentController.value.text;
+    var status = newStatusController.value.text;
+
+    fields = Fields(
+      admin: null,
+      title: title,
+      content: content,
+      status: status,
+    ) as AdminReminder;
+  }
+
+  successSubmit() {
+    Get.snackbar("Success", "Reminder berhasil dikirim",
+        duration: const Duration(seconds: 2),
+        snackPosition: SnackPosition.TOP,
+        margin: const EdgeInsets.all(kDefaultPadding / 2),
+        backgroundColor: kSuccessColor,
+        colorText: kWhiteColor,
+        icon: const Icon(
+          Icons.check_circle_outline,
+          color: kWhiteColor,
+        ));
+    Get.offNamed(dashboardAdminRoute);
+  }
+
+  errorSnackbar() {
+    Get.snackbar(
+        "Error", "Terjadi error saat mengirim laporan, coba lagi nanti",
+        duration: const Duration(seconds: 2),
+        snackPosition: SnackPosition.TOP,
+        margin: const EdgeInsets.all(kDefaultPadding / 2),
+        backgroundColor: kErrorColor,
+        colorText: kWhiteColor,
+        icon: const Icon(
+          Icons.error_outline_rounded,
+          color: kWhiteColor,
+        ));
+  }
 }
