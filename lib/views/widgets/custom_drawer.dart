@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:pusat_pengaduan/common/constant.dart';
-import 'package:pusat_pengaduan/pusat_pengaduan_app.dart';
 import 'package:pusat_pengaduan/utils/route.dart';
 
 class CustomDrawer extends StatelessWidget {
