@@ -203,7 +203,8 @@ class HomePageScreen extends StatelessWidget {
                             children: [
                               Text(
                                 "${snapshot.data!['nama'][index]}",
-                                style: const TextStyle(fontSize: 15),
+                                style: const TextStyle(
+                                    fontSize: 17, fontWeight: FontWeight.bold),
                               ),
                               if (snapshot.data!['listReview'][index].fields
                                       .rating !=
