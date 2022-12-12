@@ -14,27 +14,30 @@ class HomePageScreen extends StatelessWidget {
   const HomePageScreen({super.key});
 
   getName(request, id) async {
-    final responseName =
-        await request.post("http://127.0.0.1:8000/json_name/", {
+    print(id);
+    final responseName = await request
+        .post("https://pusat-pengaduan.up.railway.app/json_name/", {
       "id": id,
     });
+    // print(responseName);
     return responseName;
   }
 
   getReview(request) async {
-    final response = await request.get("http://127.0.0.1:8000/json_review/");
+    final response = await request
+        .get("https://pusat-pengaduan.up.railway.app/json_review/");
     List<Review> listReview = [];
     List<String> nama = [];
     for (var i in response) {
       if (i != null) {
         int id = i['fields']['user'];
         listReview.add(Review.fromJson(i));
+
         final responseName = await getName(request, id.toString());
+
         nama.add(responseName[0]['fields']['nama']);
       }
     }
-    // print(Review.fromJson(response[0]));
-    // print(listReview);
     return {'listReview': listReview, 'nama': nama};
   }
 
