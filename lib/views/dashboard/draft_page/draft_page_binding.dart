@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
-import 'package:pusat_pengaduan/views/dashboard/draft_form/controller/draft_form_controller.dart';
+import 'package:pusat_pengaduan/views/dashboard/draft_page/controller/draft_controller.dart';
 
 
 class DraftPageBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put(DraftFormController());
+    Get.put(DraftPageController());
   }
 }

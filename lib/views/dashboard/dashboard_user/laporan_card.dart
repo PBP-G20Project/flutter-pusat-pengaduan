@@ -20,8 +20,8 @@ class _CardScreenPageState extends State<CardScreen> {
 
   getLaporan(request) async {
     List<LaporanUser> listLaporan = [];
-    final response =
-        await request.get("http://localhost:8000/dashboard_user/Laporan/");
+    final response = await request
+        .get("https://pusat-pengaduan.up.railway.app/dashboard_user/Laporan/");
     for (var d in response) {
       if (d != null) {
         listLaporan.add(LaporanUser.fromJson(d));
@@ -56,12 +56,11 @@ class _CardScreenPageState extends State<CardScreen> {
                             padding: const EdgeInsets.all(15),
                             child: Column(children: [
                               Row(children: [
-                                Text(
-                                    "${snapshot.data![index].fields.title}",
+                                Text("${snapshot.data![index].fields.title}",
                                     style: kRubik.copyWith(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
-                                ))
+                                    ))
                               ]),
                               const Spacer(),
                               Row(children: [
@@ -93,8 +92,11 @@ class _CardScreenPageState extends State<CardScreen> {
                                 Flexible(
                                     child: Text(snapshot
                                         .data[index].fields.content
-                                        .substring(3,snapshot.data[index].fields.content
-                                                    .length -4)))
+                                        .substring(
+                                            3,
+                                            snapshot.data[index].fields.content
+                                                    .length -
+                                                4)))
                               ]),
                             ]),
                           )))));
