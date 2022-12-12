@@ -16,3 +16,5 @@ const kRegister = 'Register';
 const kLogin = 'Login';
 const kLogout = 'Logout';
 const kReview = 'Review';
+// ignore: non_constant_identifier_names
+bool is_user = false;

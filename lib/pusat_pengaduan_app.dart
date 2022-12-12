@@ -7,9 +7,6 @@ import 'package:pusat_pengaduan/utils/route.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 
-// ignore: non_constant_identifier_names
-bool is_user = false;
-
 class PusatPengaduanApp extends StatelessWidget {
   const PusatPengaduanApp({super.key});
 
@@ -51,7 +48,6 @@ class PusatPengaduanApp extends StatelessWidget {
         ),
         getPages: route,
         initialRoute: splashRoute,
-
       ),
     );
   }
