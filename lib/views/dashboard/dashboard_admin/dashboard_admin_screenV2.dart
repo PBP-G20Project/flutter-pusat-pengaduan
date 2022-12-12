@@ -6,7 +6,7 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:pusat_pengaduan/common/constant.dart';
 import 'package:pusat_pengaduan/views/dashboard/dashboard_admin/widget/custom_dropdown.dart';
-import 'package:pusat_pengaduan/views/dashboard/dashboard_admin/widgets/list_report.dart';
+import 'package:pusat_pengaduan/views/dashboard/dashboard_admin/widget/list_report.dart';
 
 import 'controller/dashboard_admin_controller.dart';
 
@@ -33,19 +33,17 @@ class _DashboardAdminScreenV2State extends State<DashboardAdminScreenV2> {
             child: CustomDropdownField(
                 label: "Pengecekan Status",
                 hint: "Semua",
-                items: const ["Semua", "Pending"],
+                items: const ["Semua", "Pending", "Diproses", "Selesai"],
                 onChanged: (value) => setState(() {
                       controller.statusController.value.text = value!;
                     })),
           ),
-          Text(controller.statusController.value.text),
-          if (controller.statusController.value.text == 'Semua') ...[
             Expanded(
               child: ListReport(
                 request: request,
+                status: controller.statusController.value.text,
               ),
             ),
-          ]
         ],
       ),
     );

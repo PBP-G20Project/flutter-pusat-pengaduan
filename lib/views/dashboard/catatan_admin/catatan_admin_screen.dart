@@ -1,42 +1,39 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'package:pusat_pengaduan/common/constant.dart';
-import 'package:pusat_pengaduan/controller/route_controller.dart';
-import 'package:pusat_pengaduan/views/widgets/custom_drawer.dart';
-
-import 'package:pusat_pengaduan/views/dashboard/catatan_admin/controller/catatan_admin_controller.dart';
-
-import '../dashboard_admin/widget/custom_dropdown.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:pusat_pengaduan/common/constant.dart';
+import 'package:pusat_pengaduan/views/dashboard/dashboard_admin/widget/custom_dropdown.dart';
 
+import '../../submission_form/widgets/custom_footer_button.dart';
+import '../../submission_form/widgets/custom_textfield.dart';
 import 'catatan_admin_data.dart';
+import 'controller/catatan_admin_controller.dart';
 
 class CatatanAdminScreen extends StatefulWidget {
   const CatatanAdminScreen({super.key});
 
   @override
-  State<CatatanAdminScreen> createState() => _CatatanAdmin();
+  State<CatatanAdminScreen> createState() => _CatatanAdminScreenState();
 }
 
-class _CatatanAdmin extends State<CatatanAdminScreen> {
+class _CatatanAdminScreenState extends State<CatatanAdminScreen> {
 
   Future<List<AdminReminder>> getAllStatus(request) async {
-    final response = await request.get("http://127.0.0.1:8000/dashboard_admin/get_reminder_json/");
+    final response = await request.get(
+        "https://pusat-pengaduan.up.railway.app/dashboard_admin/get_reminder_json/");
 
-    // json to AdminReport
-    List<AdminReminder> adminReport = [];
+    // json to AdminReminder
+    List<AdminReminder> adminReminder = [];
     for (var d in response) {
       if (d != null) {
-        adminReport.add(AdminReminder.fromJson(d));
+        adminReminder.add(AdminReminder.fromJson(d));
       }
     }
-
-    return adminReport;
+    return adminReminder;
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,158 +41,123 @@ class _CatatanAdmin extends State<CatatanAdminScreen> {
     final request = context.watch<CookieRequest>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dashboard Admin'),
+        title: const Text('Catatan Admin'),
       ),
-      drawer: CustomDrawer(
-        title: 'Pusat Pengaduan',
-        menu: RouteController.getDrawerRoute(kDashboardAdmin, request),
+      body: ListView(
+        children: [
+          Container(
+            margin: const EdgeInsets.all(kDefaultPadding),
+            child: Form(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              key: controller.formKey,
+              child: Column(
+                children: [
+                  CustomTextField(
+                    label: "Judul Laporan",
+                    hint: "Tuliskan judul laporan",
+                    controller: controller.titleController.value,
+                    validator: controller.validateTextField,
+                  ),
+                  const SizedBox(height: kDefaultPadding),
+                  CustomTextField(
+                    label: "Isi Laporan",
+                    hint: "Tuliskan isi laporan",
+                    maxLines: 5,
+                    keyboardType: TextInputType.multiline,
+                    controller: controller.contentController.value,
+                    validator: controller.validateTextField,
+                  ),
+                  const SizedBox(height: kDefaultPadding),
+                  CustomDropdownField(
+                      label: "Sentimen",
+                      hint: "Pilih status reminder",
+                      validator: controller.validateTextField,
+                      items: const [
+                        "Positif",
+                        "Negatif",
+                      ],
+                      onChanged: (value) {
+                        controller.newStatusController.value.text = value!;
+                      }),
+                  const SizedBox(height: kDefaultPadding),
+                ],
+              ),
+            ),
+          ),
+          CustomFooterButton(
+            label: 'Submit',
+            onPressed: () async {
+              if (await controller.validateForm(request)) {
+                var data = controller.fields.toJson();
+                var response = await controller.reportPost(request, data);
+                if (response["status"] == "success") {
+                  controller.successSubmit();
+                } else {
+                  controller.errorSnackbar();
+                }
+              }
+            },
+          ),
+          Expanded(
+            child: FutureBuilder(
+                future: getAllStatus(request),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.data == null) {
+                    return const Text('Mohon Menunggu Data Fetching');
+                  } else {
+                    if (!snapshot.hasData) {
+                      return Column(
+                        children: const [
+                          Text(
+                            "Belum Ada Laporan",
+                            style: TextStyle(color: kErrorColor, fontSize: 20),
+                          ),
+                          SizedBox(height: 8),
+                        ],
+                      );
+                    } else {
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (_, index) =>
+                              Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      kDefaultPadding,
+                                      kDefaultPadding / 2,
+                                      kDefaultPadding,
+                                      kDefaultPadding / 2),
+                                  child: Material(
+                                    elevation: 2.0,
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    color: kPrimaryColor,
+                                    shadowColor: kDarkPrimaryColor,
+                                    child: ListTile(
+                                      leading: Container(
+                                        color:
+                                        (snapshot.data![index].fields.status ==
+                                            'Positif') ? kSuccessColor :
+                                        kErrorColor,
+                                        width: 50,
+                                        height: 50,
+                                      ),
+                                      title: Text(
+                                          snapshot.data![index].fields.title,
+                                          style: const TextStyle(
+                                              color: kBananaColor200)),
+                                      subtitle: Text(
+                                          snapshot.data![index].fields
+                                              .content,
+                                          style: const TextStyle(
+                                              color: kBananaColor200)),
+                                      isThreeLine: true,
+                                    ),
+                                  )));
+                    }
+                  }
+                })
+          ),
+        ],
       ),
-      body: ListView(controller: controller.scrollController, children: [
-        Container(
-          margin: const EdgeInsets.all(kDefaultPadding),
-          child: Column(
-              children: [
-                CustomDropdownField(
-                    label: "Status Catatan",
-                    hint: "Semua",
-                    items: const [
-                      "Semua",
-                      "Positif"
-                    ],
-                    onChanged: (value) => setState (() {
-                      controller.statusController.value.text = value!;
-                    })
-                ),
-                Text(controller.statusController.value.text),
-                Column(
-                  children: [
-                    if (controller.statusController.value.text == 'Semua')...[
-                      FutureBuilder(
-                          future: getAllStatus(request),
-                          builder: (context, AsyncSnapshot snapshot){
-                            if (snapshot.data == null){
-                              return Text('hello');
-                            } else {
-                              if (!snapshot.hasData) {
-                                return Column(
-                                  children: const [
-                                    Text(
-                                      "Belum Ada Laporan",
-                                      style:
-                                      TextStyle(color: kErrorColor, fontSize: 20),
-                                    ),
-                                    SizedBox(height: 8),
-                                  ],
-                                );
-                              } else {
-                                return ListView.builder(
-                                    itemCount: snapshot.data!.length,
-                                    itemBuilder: (_, index) => Padding(
-                                        padding: const EdgeInsets.all(kDefaultPadding),
-                                        child: Material(
-                                          elevation: 2.0,
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          color: kBananaColor200,
-                                          shadowColor: kDarkPrimaryColor,
-                                          child:
-                                          ListTile(
-                                            trailing:
-                                            Container(
-                                                decoration: (snapshot.data![index].fields.status == 'PENDING') ?
-                                                const BoxDecoration(
-                                                    border: Border(),
-                                                    color: kLavenderColor,
-                                                    borderRadius: BorderRadius.all(Radius.circular(20))
-                                                ) :
-                                                (snapshot.data![index].fields.status == 'DIPROSES') ?
-                                                const BoxDecoration(
-                                                    border: Border(),
-                                                    color: kWarningColor,
-                                                    borderRadius: BorderRadius.all(Radius.circular(20))
-                                                ) :
-                                                (snapshot.data![index].fields.status == 'SELESAI') ?
-                                                const BoxDecoration(
-                                                    border: Border(),
-                                                    color: kSuccessColor,
-                                                    borderRadius: BorderRadius.all(Radius.circular(20))
-                                                ) :
-                                                const BoxDecoration(
-                                                    border: Border(),
-                                                    color: kErrorColor,
-                                                    borderRadius: BorderRadius.all(Radius.circular(20))
-                                                )
-                                            ),
-                                            title:
-                                            Text(snapshot.data![index].fields.title),
-                                            subtitle:
-                                            Text(snapshot.data![index].fields.content),
-                                            isThreeLine: true,
-                                          ),
-                                        )
-                                    )
-                                );
-                              }
-                            }
-
-                          })
-                    ] else if (controller.statusController.value.text == "Pending")...[
-                      FutureBuilder(
-                          future: getAllStatus(request),
-                          builder: (context, AsyncSnapshot snapshot){
-                            if (snapshot.data == null){
-                              return Text('hello');
-                            } else {
-                              if (!snapshot.hasData) {
-                                return Column(
-                                  children: const [
-                                    Text(
-                                      "Belum Ada Laporan",
-                                      style:
-                                      TextStyle(color: kErrorColor, fontSize: 20),
-                                    ),
-                                    SizedBox(height: 8),
-                                  ],
-                                );
-                              } else {
-                                return ListView.builder(
-                                    itemCount: snapshot.data!.length,
-                                    itemBuilder: (_, index) => Padding(
-                                        padding: const EdgeInsets.all(kDefaultPadding),
-                                        child: Material(
-                                          elevation: 2.0,
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          color: kPrimaryColor,
-                                          shadowColor: kBananaColor200,
-                                          child:
-                                          ListTile(
-                                            trailing:
-                                            Container(
-                                                decoration:
-                                                const BoxDecoration(
-                                                    border: Border(),
-                                                    color: kLavenderColor,
-                                                    borderRadius: BorderRadius.all(Radius.circular(20))
-                                                )
-                                            ),
-                                            title:
-                                            Text(snapshot.data![index].fields.title),
-                                            subtitle:
-                                            Text(snapshot.data![index].fields.content),
-                                            isThreeLine: true,
-                                          ),
-                                        )
-                                    )
-                                );
-                              }
-                            }
-                          })
-                    ]
-                  ],
-                )
-
-              ]),
-        )
-      ]),
     );
   }
 }
