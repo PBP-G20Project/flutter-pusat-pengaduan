@@ -4,9 +4,11 @@
 
 import 'dart:convert';
 
-List<AdminReport> adminReportFromJson(String str) => List<AdminReport>.from(json.decode(str).map((x) => AdminReport.fromJson(x)));
+List<AdminReport> adminReportFromJson(String str) => List<AdminReport>.from(
+    json.decode(str).map((x) => AdminReport.fromJson(x)));
 
-String adminReportToJson(List<AdminReport> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String adminReportToJson(List<AdminReport> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class AdminReport {
   AdminReport({
@@ -18,14 +20,14 @@ class AdminReport {
   Fields fields;
 
   factory AdminReport.fromJson(Map<String, dynamic> json) => AdminReport(
-    pk: json["pk"],
-    fields: Fields.fromJson(json["fields"]),
-  );
+        pk: json["pk"],
+        fields: Fields.fromJson(json["fields"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "pk": pk,
-    "fields": fields.toJson(),
-  };
+        "pk": pk,
+        "fields": fields.toJson(),
+      };
 }
 
 class Fields {
@@ -54,28 +56,28 @@ class Fields {
   String status;
 
   factory Fields.fromJson(Map<String, dynamic> json) => Fields(
-    userSubmission: json["user_submission"],
-    adminSubmission: json["admin_submission"],
-    title: json["title"],
-    content: json["content"],
-    institution: json["institution"],
-    institutionLevel: json["institution_level"],
-    involvedParty: json["involved_party"],
-    date: DateTime.parse(json["date"]),
-    location: json["location"],
-    status: json["status"],
-  );
+        userSubmission: json["user_submission"],
+        adminSubmission: json["admin_submission"],
+        title: json["title"],
+        content: json["content"],
+        institution: json["institution"],
+        institutionLevel: json["institution_level"],
+        involvedParty: json["involved_party"],
+        date: DateTime.parse(json["date"]),
+        location: json["location"],
+        status: json["status"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "user_submission": userSubmission,
-    "admin_submission": adminSubmission,
-    "title": title,
-    "content": content,
-    "institution": institution,
-    "institution_level": institutionLevel,
-    "involved_party": involvedParty,
-    "date": date.toIso8601String(),
-    "location": location,
-    "status": status,
-  };
+        "user_submission": userSubmission,
+        "admin_submission": adminSubmission,
+        "title": title,
+        "content": content,
+        "institution": institution,
+        "institution_level": institutionLevel,
+        "involved_party": involvedParty,
+        "date": date.toIso8601String(),
+        "location": location,
+        "status": status,
+      };
 }

@@ -5,7 +5,7 @@ import 'package:pusat_pengaduan/views/dashboard/dashboard_admin/dashboard_admin_
 
 
 Future<List<AdminReport>> getAllStatus(request) async {
-  final response = await request.get("http://127.0.0.1:8000/dashboard_admin/show_all_report/");
+  final response = await request.get("https://pusat-pengaduan.up.railway.app/dashboard_admin/show_all_report/");
 
   // decoding response into json
 

@@ -3,6 +3,7 @@ import 'package:pusat_pengaduan/views/dashboard/catatan_admin/catatan_admin_bind
 import 'package:pusat_pengaduan/views/dashboard/catatan_admin/catatan_admin_screen.dart';
 import 'package:pusat_pengaduan/views/dashboard/dashboard_admin/dashboard_admin_binding.dart';
 import 'package:pusat_pengaduan/views/dashboard/dashboard_admin/dashboard_admin_screen.dart';
+import 'package:pusat_pengaduan/views/dashboard/dashboard_admin/dashboard_admin_screenV2.dart';
 import 'package:pusat_pengaduan/views/dashboard/dashboard_user/dashboard_user_binding.dart';
 import 'package:pusat_pengaduan/views/dashboard/dashboard_user/dashboard_user_screen.dart';
 import 'package:pusat_pengaduan/views/dashboard/draft_form/draft_form_binding.dart';
@@ -112,7 +113,7 @@ var route = [
   ),
   GetPage(
     name: dashboardAdminRoute,
-    page: () => const DashboardAdminScreen(),
+    page: () => const DashboardAdminScreenV2(),
     binding: DashboardAdminBinding(),
   ),
   GetPage(
