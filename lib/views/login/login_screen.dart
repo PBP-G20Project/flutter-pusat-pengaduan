@@ -3,7 +3,11 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 import 'package:pusat_pengaduan/common/constant.dart';
+import 'package:pusat_pengaduan/controller/route_controller.dart';
+import 'package:pusat_pengaduan/pusat_pengaduan_app.dart';
 import 'package:pusat_pengaduan/views/login/controller/login_controller.dart';
+import 'package:pusat_pengaduan/views/widgets/custom_drawer.dart';
+import 'package:pusat_pengaduan/models/profile/profile_model.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -35,6 +39,17 @@ class _LoginScreenPageState extends State<LoginScreen> {
     return response;
   }
 
+  getProfile(request) async {
+    final response = await request
+        .get("https://pusat-pengaduan.up.railway.app/auth/data_login/");
+    if (response[0] == null) {
+      return {"status": false};
+    } else {
+      User user = User.fromJson(response[0]);
+      return {"user": user, "status": true};
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
@@ -46,6 +61,10 @@ class _LoginScreenPageState extends State<LoginScreen> {
               color: kWhiteColor,
               fontWeight: FontWeight.bold,
             )),
+      ),
+      drawer: CustomDrawer(
+        title: 'Pusat Pengaduan',
+        menu: RouteController.getDrawerRoute(kLogin, request),
       ),
       body: Form(
         key: _loginFormKey,
@@ -124,33 +143,56 @@ class _LoginScreenPageState extends State<LoginScreen> {
                     alignment: FractionalOffset.bottomCenter,
                     child: TextButton(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.blue),
+                        backgroundColor:
+                            MaterialStateProperty.all(kPrimaryColor),
                       ),
                       onPressed: () async {
-                        loginRequest(request).then((result) {
-                          if (request.loggedIn) {
-                            controller.navigateToHomePage();
-                          } else {
-                            showDialog<String>(
-                              context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                title: const Text('Gagal Login'),
-                                content: const Text(
-                                    'Email atau Password Anda Salah'),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: const Text('Kembali'),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }
-                        });
+                        if (_loginFormKey.currentState!.validate()) {
+                          loginRequest(request).then((result) {
+                            if (request.loggedIn) {
+                              String msg = "Anda Berhasil Login";
+                              getProfile(request).then((result2) {
+                                is_user = result2['user'].fields.admin == false;
+                              });
+                              showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('Berhasil Login',
+                                      style: TextStyle(color: Colors.green)),
+                                  content: Text(msg),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () =>
+                                          controller.navigateToHomePage(),
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('Gagal Login',
+                                      style: TextStyle(color: Colors.red)),
+                                  content: const Text(
+                                      'Email atau Password Anda Salah'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('Kembali'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                            // }
+                          });
+                        }
                       },
                       child: const Text(
-                        "Simpan",
-                        style: TextStyle(color: Colors.white),
+                        "Login",
+                        style: TextStyle(color: kWhiteColor),
                       ),
                     )),
               ),

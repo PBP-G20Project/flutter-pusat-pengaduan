@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 import 'package:pusat_pengaduan/common/constant.dart';
+import 'package:pusat_pengaduan/controller/route_controller.dart';
 import 'package:pusat_pengaduan/views/submission_form/controller/submission_form_controller.dart';
 import 'package:pusat_pengaduan/views/submission_form/widgets/custom_dropdown.dart';
 import 'package:pusat_pengaduan/views/submission_form/widgets/custom_footer_button.dart';
 import 'package:pusat_pengaduan/views/submission_form/widgets/custom_textfield.dart';
+import 'package:pusat_pengaduan/views/widgets/custom_drawer.dart';
 
 class SubmissionFormScreen extends StatelessWidget {
   const SubmissionFormScreen({super.key});
@@ -12,15 +16,21 @@ class SubmissionFormScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<SubmissionFormController>();
+    final request = context.watch<CookieRequest>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Buat Laporan'),
+      ),
+      drawer: CustomDrawer(
+        title: 'Pusat Pengaduan',
+        menu: RouteController.getDrawerRoute(kSubmission, request),
       ),
       body: ListView(controller: controller.scrollController, children: [
         Container(
           margin: const EdgeInsets.all(kDefaultPadding),
           child: Form(
-            autovalidateMode: AutovalidateMode.always,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             key: controller.formKey,
             child: Column(
               children: [
@@ -83,6 +93,7 @@ class SubmissionFormScreen extends StatelessWidget {
                     controller: controller.dateController.value,
                     validator: controller.validateTextField,
                     icon: const Icon(Icons.calendar_today),
+                    readOnly: true,
                     onTap: () {
                       controller.chooseDate(context: context);
                     })),
@@ -106,8 +117,16 @@ class SubmissionFormScreen extends StatelessWidget {
         // Pernyataan Integritas
         CustomFooterButton(
           label: 'Submit',
-          onPressed: () {
-            controller.submitForm();
+          onPressed: () async {
+            if (await controller.validateForm(request)) {
+              var data = controller.fields.toJson();
+              var response = await controller.reportPost(request, data);
+              if (response["status"] == "success") {
+                controller.successSubmit();
+              } else {
+                controller.errorSnackbar();
+              }
+            }
           },
         ),
       ],
