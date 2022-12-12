@@ -7,6 +7,8 @@ import 'package:pusat_pengaduan/views/dashboard/dashboard_user/dashboard_user_bi
 import 'package:pusat_pengaduan/views/dashboard/dashboard_user/dashboard_user_screen.dart';
 import 'package:pusat_pengaduan/views/dashboard/draft_form/draft_form_binding.dart';
 import 'package:pusat_pengaduan/views/dashboard/draft_form/draft_form_screen.dart';
+import 'package:pusat_pengaduan/views/dashboard/draft_page/draft_page_binding.dart';
+import 'package:pusat_pengaduan/views/dashboard/draft_page/draft_page_screen.dart';
 import 'package:pusat_pengaduan/views/home/berita_detail/berita_detail_binding.dart';
 import 'package:pusat_pengaduan/views/home/berita_detail/berita_detail_screen.dart';
 import 'package:pusat_pengaduan/views/home/berita_detail_dua/berita_detail_dua_screen.dart';
@@ -45,6 +47,7 @@ const submissionRoute = "/submission";
 
 const dashboardUserRoute = "/dashboard/dashboard_user";
 const draftFormRoute = "/dashboard/draft_form";
+const draftPageRoute = "/dashboard/draft_page";
 
 const dashboardAdminRoute = "/dashboard/dashboard_admin";
 const catatanAdminRoute = "/dashboard/catatan_admin";
@@ -110,6 +113,10 @@ var route = [
     page: () => const DraftFormScreen(),
     binding: DraftFormBinding(),
   ),
+  GetPage(
+      name: draftPageRoute,
+      page: () => const DraftPageScreen(),
+      binding: DraftPageBinding()),
   GetPage(
     name: dashboardAdminRoute,
     page: () => const DashboardAdminScreenV2(),
