@@ -34,152 +34,137 @@ class _DashboardAdmin extends State<DashboardAdminScreen> {
         title: 'Pusat Pengaduan',
         menu: RouteController.getDrawerRoute(kDashboardAdmin, request),
       ),
-      body: ListView(controller: controller.scrollController, children: [
-        Container(
-          margin: const EdgeInsets.all(kDefaultPadding),
-          child: Column(
-            children: [
-              CustomDropdownField(
+      body: Container(
+        margin: const EdgeInsets.all(kDefaultPadding),
+        child: ListView(children: [
+          CustomDropdownField(
               label: "Pengecekan Status",
               hint: "Semua",
-              items: const [
-                "Semua",
-                "Pending"
-              ],
-              onChanged: (value) => setState (() {
-                controller.statusController.value.text = value!;
-                })
-              ),
-              Text(controller.statusController.value.text),
-              Column(
-                children: [
-                  if (controller.statusController.value.text == 'Semua')...[
-                    FutureBuilder(
-                      future: getAllStatus(request),
-                      builder: (context, AsyncSnapshot snapshot){
-                        if (snapshot.data == null){
-                          return Text('hello');
-                        } else {
-                          if (!snapshot.hasData) {
-                            return Column(
-                                children: const [
-                                  Text(
-                                    "Belum Ada Laporan",
-                                  style:
-                                  TextStyle(color: kErrorColor, fontSize: 20),
-                                ),
-                                SizedBox(height: 8),
-                              ],
-                            );
-                          } else {
-                            return ListView.builder(
-                              itemCount: snapshot.data!.length,
-                              itemBuilder: (_, index) => Padding(
-                                padding: const EdgeInsets.all(kDefaultPadding),
-                                child: Material(
-                                  elevation: 2.0,
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  color: kBananaColor200,
-                                  shadowColor: kDarkPrimaryColor,
-                                  child:
-                                  ListTile(
-                                    trailing:
-                                      Container(
-                                        decoration: (snapshot.data![index].fields.status == 'PENDING') ?
-                                          const BoxDecoration(
+              items: const ["Semua", "Pending"],
+              onChanged: (value) => setState(() {
+                    controller.statusController.value.text = value!;
+                  })),
+          Text(controller.statusController.value.text),
+          if (controller.statusController.value.text == 'Semua') ...[
+            FutureBuilder(
+                future: getAllStatus(request),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.data == null) {
+                    return Text('hello');
+                  } else {
+                    if (!snapshot.hasData) {
+                      return Column(
+                        children: const [
+                          Text(
+                            "Belum Ada Laporan",
+                            style:
+                                TextStyle(color: kErrorColor, fontSize: 20),
+                          ),
+                          SizedBox(height: 8),
+                        ],
+                      );
+                    } else {
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          physics: const ClampingScrollPhysics(),
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (_, index) => Padding(
+                              padding: const EdgeInsets.all(kDefaultPadding),
+                              child: Material(
+                                elevation: 2.0,
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: kBananaColor200,
+                                shadowColor: kDarkPrimaryColor,
+                                child: ListTile(
+                                  leading: Container(
+                                      decoration: (snapshot.data![index]
+                                                  .fields.status ==
+                                              'PENDING')
+                                          ? const BoxDecoration(
                                               border: Border(),
                                               color: kLavenderColor,
-                                              borderRadius: BorderRadius.all(Radius.circular(20))
-                                          ) :
-                                        (snapshot.data![index].fields.status == 'DIPROSES') ?
-                                          const BoxDecoration(
-                                              border: Border(),
-                                              color: kWarningColor,
-                                              borderRadius: BorderRadius.all(Radius.circular(20))
-                                          ) :
-                                        (snapshot.data![index].fields.status == 'SELESAI') ?
-                                          const BoxDecoration(
-                                              border: Border(),
-                                              color: kSuccessColor,
-                                              borderRadius: BorderRadius.all(Radius.circular(20))
-                                          ) :
-                                          const BoxDecoration(
-                                              border: Border(),
-                                              color: kErrorColor,
-                                              borderRadius: BorderRadius.all(Radius.circular(20))
-                                          )
-                                      ),
-                                    title:
-                                      Text(snapshot.data![index].fields.title),
-                                    subtitle:
-                                      Text(snapshot.data![index].fields.content),
-                                    isThreeLine: true,
-                                  ),
-                                )
-                              )
-                            );
-                          }
-                        }
-
-                      })
-                  ] else if (controller.statusController.value.text == "Pending")...[
-                    FutureBuilder(
-                        future: getAllStatus(request),
-                        builder: (context, AsyncSnapshot snapshot){
-                          if (snapshot.data == null){
-                            return Text('hello');
-                          } else {
-                            if (!snapshot.hasData) {
-                              return Column(
-                                children: const [
-                                  Text(
-                                    "Belum Ada Laporan",
-                                    style:
-                                    TextStyle(color: kErrorColor, fontSize: 20),
-                                  ),
-                                  SizedBox(height: 8),
-                                ],
-                              );
-                            } else {
-                              return ListView.builder(
-                                  itemCount: snapshot.data!.length,
-                                  itemBuilder: (_, index) => Padding(
-                                      padding: const EdgeInsets.all(kDefaultPadding),
-                                      child: Material(
-                                        elevation: 2.0,
-                                        borderRadius: BorderRadius.circular(5.0),
-                                        color: kPrimaryColor,
-                                        shadowColor: kBananaColor200,
-                                        child:
-                                        ListTile(
-                                          trailing:
-                                          Container(
-                                              decoration:
-                                              const BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(20)))
+                                          : (snapshot.data![index].fields.status ==
+                                                  'DIPROSES')
+                                              ? const BoxDecoration(
                                                   border: Border(),
-                                                  color: kLavenderColor,
-                                                  borderRadius: BorderRadius.all(Radius.circular(20))
-                                              )
-                                          ),
-                                          title:
-                                          Text(snapshot.data![index].fields.title),
-                                          subtitle:
-                                          Text(snapshot.data![index].fields.content),
-                                          isThreeLine: true,
-                                        ),
-                                      )
-                                  )
-                              );
-                            }
-                          }
-                        })
-                  ]
-                ],
-              )
-
-            ]),
-        )
-      ]),
+                                                  color: kWarningColor,
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(20)))
+                                              : (snapshot.data![index].fields.status ==
+                                                      'SELESAI')
+                                                  ? const BoxDecoration(
+                                                      border: Border(),
+                                                      color: kSuccessColor,
+                                                      borderRadius: BorderRadius.all(
+                                                          Radius.circular(
+                                                              20)))
+                                                  : const BoxDecoration(
+                                                      border: Border(),
+                                                      color: kErrorColor,
+                                                      borderRadius:
+                                                          BorderRadius.all(Radius.circular(20)))),
+                                  title: Text(
+                                      snapshot.data![index].fields.title),
+                                  subtitle: Text(
+                                      snapshot.data![index].fields.content),
+                                  isThreeLine: true,
+                                ),
+                              )));
+                    }
+                  }
+                })
+          ] else if (controller.statusController.value.text == "Pending") ...[
+            FutureBuilder(
+                future: getAllStatus(request),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.data == null) {
+                    return Text('hello');
+                  } else {
+                    if (!snapshot.hasData) {
+                      return Column(
+                        children: const [
+                          Text(
+                            "Belum Ada Laporan",
+                            style:
+                                TextStyle(color: kErrorColor, fontSize: 20),
+                          ),
+                          SizedBox(height: 8),
+                        ],
+                      );
+                    } else {
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          physics: const ClampingScrollPhysics(),
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (_, index) => Padding(
+                              padding: const EdgeInsets.all(kDefaultPadding),
+                              child: Material(
+                                elevation: 2.0,
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: kPrimaryColor,
+                                shadowColor: kBananaColor200,
+                                child: ListTile(
+                                  leading: Container(
+                                      decoration: const BoxDecoration(
+                                          border: Border(),
+                                          color: kLavenderColor,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20)))),
+                                  title: Text(
+                                      snapshot.data![index].fields.title),
+                                  subtitle: Text(
+                                      snapshot.data![index].fields.content),
+                                  isThreeLine: true,
+                                ),
+                              )));
+                    }
+                  }
+                })
+          ]
+        ]),
+      ),
     );
   }
 }
