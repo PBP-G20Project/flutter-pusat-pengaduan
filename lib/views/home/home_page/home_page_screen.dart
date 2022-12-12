@@ -69,7 +69,7 @@ class HomePageScreen extends StatelessWidget {
             height: 300,
           ),
           Container(
-              margin: const EdgeInsets.fromLTRB(20, 10, 400, 10),
+              margin: const EdgeInsets.fromLTRB(20, 10, 100, 10),
               child: const Text(
                 "Berita",
                 style: TextStyle(fontSize: 20, color: kWhiteColor),
@@ -157,7 +157,7 @@ class HomePageScreen extends StatelessWidget {
                 )),
           ),
           Container(
-              margin: const EdgeInsets.fromLTRB(20, 20, 400, 20),
+              margin: const EdgeInsets.fromLTRB(20, 10, 100, 10),
               child: const Text(
                 "Review",
                 style: TextStyle(fontSize: 20, color: kWhiteColor),
@@ -181,115 +181,118 @@ class HomePageScreen extends StatelessWidget {
                     ],
                   );
                 } else {
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: snapshot.data!['listReview'].length,
-                    itemBuilder: (_, index) => Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 12),
-                      padding: const EdgeInsets.all(20.0),
-                      decoration: BoxDecoration(
-                          color: kWhiteColor,
-                          borderRadius: BorderRadius.circular(10.0),
-                          boxShadow: const [
-                            BoxShadow(color: kPrimaryColor, blurRadius: 2.0)
-                          ]),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "${snapshot.data!['nama'][index]}",
-                            style: const TextStyle(fontSize: 15),
+                  return SingleChildScrollView(
+                      physics: ScrollPhysics(),
+                      child: ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!['listReview'].length,
+                        itemBuilder: (_, index) => Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 12),
+                          padding: const EdgeInsets.all(20.0),
+                          decoration: BoxDecoration(
+                              color: kWhiteColor,
+                              borderRadius: BorderRadius.circular(10.0),
+                              boxShadow: const [
+                                BoxShadow(color: kPrimaryColor, blurRadius: 2.0)
+                              ]),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${snapshot.data!['nama'][index]}",
+                                style: const TextStyle(fontSize: 15),
+                              ),
+                              if (snapshot.data!['listReview'][index].fields
+                                      .rating !=
+                                  null) ...[
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(children: [
+                                  // 1
+                                  if (snapshot.data!['listReview'][index].fields
+                                          .rating >=
+                                      1) ...[
+                                    const Icon(
+                                      Icons.star,
+                                      color: Colors.orange,
+                                    )
+                                  ] else ...[
+                                    const Icon(
+                                      Icons.star,
+                                    )
+                                  ],
+
+                                  // 2
+                                  if (snapshot.data!['listReview'][index].fields
+                                          .rating >=
+                                      2) ...[
+                                    const Icon(
+                                      Icons.star,
+                                      color: Colors.orange,
+                                    )
+                                  ] else ...[
+                                    const Icon(
+                                      Icons.star,
+                                    )
+                                  ],
+
+                                  // 3
+                                  if (snapshot.data!['listReview'][index].fields
+                                          .rating >=
+                                      3) ...[
+                                    const Icon(
+                                      Icons.star,
+                                      color: Colors.orange,
+                                    )
+                                  ] else ...[
+                                    const Icon(
+                                      Icons.star,
+                                    )
+                                  ],
+
+                                  // 4
+                                  if (snapshot.data!['listReview'][index].fields
+                                          .rating >=
+                                      4) ...[
+                                    const Icon(
+                                      Icons.star,
+                                      color: Colors.orange,
+                                    )
+                                  ] else ...[
+                                    const Icon(
+                                      Icons.star,
+                                    )
+                                  ],
+
+                                  // 5
+                                  if (snapshot.data!['listReview'][index].fields
+                                          .rating >=
+                                      5) ...[
+                                    const Icon(
+                                      Icons.star,
+                                      color: Colors.orange,
+                                    )
+                                  ] else ...[
+                                    const Icon(
+                                      Icons.star,
+                                    )
+                                  ],
+                                ])
+                              ],
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                  "${snapshot.data!['listReview'][index].fields.comment}",
+                                  style: const TextStyle(fontSize: 15))
+                            ],
                           ),
-                          if (snapshot
-                                  .data!['listReview'][index].fields.rating !=
-                              null) ...[
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(children: [
-                              // 1
-                              if (snapshot.data!['listReview'][index].fields
-                                      .rating >=
-                                  1) ...[
-                                const Icon(
-                                  Icons.star,
-                                  color: Colors.orange,
-                                )
-                              ] else ...[
-                                const Icon(
-                                  Icons.star,
-                                )
-                              ],
-
-                              // 2
-                              if (snapshot.data!['listReview'][index].fields
-                                      .rating >=
-                                  2) ...[
-                                const Icon(
-                                  Icons.star,
-                                  color: Colors.orange,
-                                )
-                              ] else ...[
-                                const Icon(
-                                  Icons.star,
-                                )
-                              ],
-
-                              // 3
-                              if (snapshot.data!['listReview'][index].fields
-                                      .rating >=
-                                  3) ...[
-                                const Icon(
-                                  Icons.star,
-                                  color: Colors.orange,
-                                )
-                              ] else ...[
-                                const Icon(
-                                  Icons.star,
-                                )
-                              ],
-
-                              // 4
-                              if (snapshot.data!['listReview'][index].fields
-                                      .rating >=
-                                  4) ...[
-                                const Icon(
-                                  Icons.star,
-                                  color: Colors.orange,
-                                )
-                              ] else ...[
-                                const Icon(
-                                  Icons.star,
-                                )
-                              ],
-
-                              // 5
-                              if (snapshot.data!['listReview'][index].fields
-                                      .rating >=
-                                  5) ...[
-                                const Icon(
-                                  Icons.star,
-                                  color: Colors.orange,
-                                )
-                              ] else ...[
-                                const Icon(
-                                  Icons.star,
-                                )
-                              ],
-                            ])
-                          ],
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                              "${snapshot.data!['listReview'][index].fields.comment}",
-                              style: const TextStyle(fontSize: 15))
-                        ],
-                      ),
-                    ),
-                  );
+                        ),
+                      ));
                 }
               }
             },

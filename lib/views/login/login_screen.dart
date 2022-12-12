@@ -143,7 +143,8 @@ class _LoginScreenPageState extends State<LoginScreen> {
                     alignment: FractionalOffset.bottomCenter,
                     child: TextButton(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.blue),
+                        backgroundColor:
+                            MaterialStateProperty.all(kPrimaryColor),
                       ),
                       onPressed: () async {
                         if (_loginFormKey.currentState!.validate()) {
@@ -190,8 +191,8 @@ class _LoginScreenPageState extends State<LoginScreen> {
                         }
                       },
                       child: const Text(
-                        "Simpan",
-                        style: TextStyle(color: Colors.white),
+                        "Login",
+                        style: TextStyle(color: kWhiteColor),
                       ),
                     )),
               ),
