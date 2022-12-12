@@ -1,16 +1,16 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
 
 import 'package:pusat_pengaduan/common/constant.dart';
 import 'package:pusat_pengaduan/controller/route_controller.dart';
 import 'package:pusat_pengaduan/views/widgets/custom_drawer.dart';
-import 'package:get/get.dart';
 
 import 'package:pusat_pengaduan/views/dashboard/dashboard_admin/controller/dashboard_admin_controller.dart';
+import 'package:pusat_pengaduan/views/dashboard/dashboard_admin/dashboard_admin_get.dart';
 
-import '../../submission_form/widgets/custom_dropdown.dart';
+import '../dashboard_admin/widget/custom_dropdown.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 
@@ -22,35 +22,6 @@ class DashboardAdminScreen extends StatefulWidget {
 }
 
 class _DashboardAdmin extends State<DashboardAdminScreen> {
-  List reportItem = [];
-
-  Future getAllStatus() async {
-    var url = Uri.parse("http://127.0.0.1:8000/dashboard_admin/show_all_report/");
-    var response = await http.get(url);
-    if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
-      setState(() {
-        reportItem = jsonData;
-      });
-    }
-    print(reportItem);
-  }
-
-  Future getAllPending() async {
-    var url = Uri.parse("http://127.0.0.1:8000/dashboard_admin/show_all_pending/");
-    var response = await http.get(url);
-    if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
-      setState(() {
-        reportItem = jsonData;
-      });
-    }
-    print(reportItem);
-  }
-
-
-
-
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<DashboardAdminController>();
@@ -73,17 +44,139 @@ class _DashboardAdmin extends State<DashboardAdminScreen> {
               hint: "Semua",
               items: const [
                 "Semua",
-                "Pending",
-                "Diproses",
-                "Selesai"
+                "Pending"
               ],
               onChanged: (value) => setState (() {
                 controller.statusController.value.text = value!;
                 })
               ),
-              Text(controller.statusController.value.text)
-              // FutureBuilder(
-              // )
+              Text(controller.statusController.value.text),
+              Column(
+                children: [
+                  if (controller.statusController.value.text == 'Semua')...[
+                    FutureBuilder(
+                      future: getAllStatus(request),
+                      builder: (context, AsyncSnapshot snapshot){
+                        if (snapshot.data == null){
+                          return Text('hello');
+                        } else {
+                          if (!snapshot.hasData) {
+                            return Column(
+                                children: const [
+                                  Text(
+                                    "Belum Ada Laporan",
+                                  style:
+                                  TextStyle(color: kErrorColor, fontSize: 20),
+                                ),
+                                SizedBox(height: 8),
+                              ],
+                            );
+                          } else {
+                            return ListView.builder(
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (_, index) => Padding(
+                                padding: const EdgeInsets.all(kDefaultPadding),
+                                child: Material(
+                                  elevation: 2.0,
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: kBananaColor200,
+                                  shadowColor: kDarkPrimaryColor,
+                                  child:
+                                  ListTile(
+                                    trailing:
+                                      Container(
+                                        decoration: (snapshot.data![index].fields.status == 'PENDING') ?
+                                          const BoxDecoration(
+                                              border: Border(),
+                                              color: kLavenderColor,
+                                              borderRadius: BorderRadius.all(Radius.circular(20))
+                                          ) :
+                                        (snapshot.data![index].fields.status == 'DIPROSES') ?
+                                          const BoxDecoration(
+                                              border: Border(),
+                                              color: kWarningColor,
+                                              borderRadius: BorderRadius.all(Radius.circular(20))
+                                          ) :
+                                        (snapshot.data![index].fields.status == 'SELESAI') ?
+                                          const BoxDecoration(
+                                              border: Border(),
+                                              color: kSuccessColor,
+                                              borderRadius: BorderRadius.all(Radius.circular(20))
+                                          ) :
+                                          const BoxDecoration(
+                                              border: Border(),
+                                              color: kErrorColor,
+                                              borderRadius: BorderRadius.all(Radius.circular(20))
+                                          )
+                                      ),
+                                    title:
+                                      Text(snapshot.data![index].fields.title),
+                                    subtitle:
+                                      Text(snapshot.data![index].fields.content),
+                                    isThreeLine: true,
+                                  ),
+                                )
+                              )
+                            );
+                          }
+                        }
+
+                      })
+                  ] else if (controller.statusController.value.text == "Pending")...[
+                    FutureBuilder(
+                        future: getAllStatus(request),
+                        builder: (context, AsyncSnapshot snapshot){
+                          if (snapshot.data == null){
+                            return Text('hello');
+                          } else {
+                            if (!snapshot.hasData) {
+                              return Column(
+                                children: const [
+                                  Text(
+                                    "Belum Ada Laporan",
+                                    style:
+                                    TextStyle(color: kErrorColor, fontSize: 20),
+                                  ),
+                                  SizedBox(height: 8),
+                                ],
+                              );
+                            } else {
+                              return ListView.builder(
+                                  itemCount: snapshot.data!.length,
+                                  itemBuilder: (_, index) => Padding(
+                                      padding: const EdgeInsets.all(kDefaultPadding),
+                                      child: Material(
+                                        elevation: 2.0,
+                                        borderRadius: BorderRadius.circular(5.0),
+                                        color: kPrimaryColor,
+                                        shadowColor: kBananaColor200,
+                                        child:
+                                        ListTile(
+                                          trailing:
+                                          Container(
+                                              decoration:
+                                              const BoxDecoration(
+                                                  border: Border(),
+                                                  color: kLavenderColor,
+                                                  borderRadius: BorderRadius.all(Radius.circular(20))
+                                              )
+                                          ),
+                                          title:
+                                          Text(snapshot.data![index].fields.title),
+                                          subtitle:
+                                          Text(snapshot.data![index].fields.content),
+                                          isThreeLine: true,
+                                        ),
+                                      )
+                                  )
+                              );
+                            }
+                          }
+                        })
+                  ]
+                ],
+              )
+
             ]),
         )
       ]),

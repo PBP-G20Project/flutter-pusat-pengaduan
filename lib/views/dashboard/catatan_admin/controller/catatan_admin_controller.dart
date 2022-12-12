@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CatatanAdminController extends GetxController{
@@ -6,4 +7,19 @@ class CatatanAdminController extends GetxController{
   void onInit() {
     super.onInit();
   }
+
+  final _formKey = GlobalKey<FormState>();
+  final scrollController = ScrollController();
+  final statusController = TextEditingController().obs;
+
+
+  scrollDown() {
+    scrollController.animateTo(
+      scrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeOut,
+    );
+  }
+
+
 }
